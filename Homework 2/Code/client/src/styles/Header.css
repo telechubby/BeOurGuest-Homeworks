@@ -1,0 +1,15 @@
+.mobile-buttons {
+    display: none;
+}
+
+@media only screen and (max-width: 991.5px) {
+    .iconRemove {
+        display: none;
+    }
+    .mobile-buttons {
+        display: unset;
+    }
+    .hello-text {
+        display: none;
+    }
+}
