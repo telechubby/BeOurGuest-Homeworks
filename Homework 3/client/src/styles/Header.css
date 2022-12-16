@@ -1,0 +1,30 @@
+.mobileButtons {
+    display: none;
+}
+
+.colorIcon {
+    color: rgb(113, 113, 113);
+}
+
+.colorIcon:hover {
+    color: rgb(75, 75, 75);
+}
+
+.marginFix {
+    margin-top: 12px;
+}
+
+.brandResize {
+    font-size: 25px;
+}
+
+@media only screen and (max-width: 991.5px) {
+    .mobileButtons {
+        display: unset;
+    }
+    
+    .iconRemove {
+        display: none;
+    }
+}
+
