@@ -1,0 +1,75 @@
+html, body {
+    overflow: hidden;
+}
+
+main {
+    background: url(../img/home/home-bg.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    width: 100vw;
+}
+
+.slogan {
+    font-size: 75px;
+}
+
+.p-spacing {
+    line-height: 32px;
+}
+
+.p-resize {
+    font-size: 20px;
+}
+
+@media only screen and (max-width: 1399.5px) {
+    .slogan {
+        font-size: 50px;
+    }
+}
+
+@media only screen and (max-width: 1200.5px) {
+    main {
+        background: url(../img/home/bg.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        background-attachment: fixed;
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+@media only screen and (max-width: 991.5px) {
+    main {
+        background: url(../img/home/home-mobile-bg.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        background-attachment: fixed;
+        height: 100vh;
+        width: 100vw;
+    }
+    .slogan {
+        text-align: center;
+    }
+    .p-resize {
+        font-size: 20px;
+        text-align: center;
+    }
+    .get-started-btn {
+        display: flex;
+        justify-content: center;
+    }
+    .display-arrow {
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 280.5px) {
+    main {
+        background: none;
+    }
+}
