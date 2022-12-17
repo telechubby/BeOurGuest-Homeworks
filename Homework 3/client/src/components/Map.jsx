@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 //styles
 import '../styles/Map.css';
+import { MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
 
 //custom marker icons
 var eventIcon = L.icon({
@@ -89,8 +90,15 @@ class Map extends Component {
                     </Marker>:""
                 }
                 <Marker position={[41.99556830573725, 21.411310806864552]} icon={eventIcon}>
-                    <Popup>
-                        Location: Rock bar "Woodstock" <br />Event Name: Rock Party <br />Date: 13.10.2022 <br />Start Time: 21:30
+                    <Popup >
+                        <h2 className='text-center'>Rock bar "Woodstock"</h2><br />
+                        <h4 className='text-center'>Codechem New Years Party</h4><br />
+                        <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</h6><br />
+                        <h5 className='text-center'>13.10.2022 @ 21:30</h5><br />
+                        <img src={require('../img/events/woodstock.jpg')} width="305" height="180"/><br />
+                        <div className='text-center'>
+                            <MDBBtn color='dark' className='mt-4' >Get Directions <MDBIcon className="display-arrow " icon='arrow-right' fa /></MDBBtn>
+                        </div>
                     </Popup>
                 </Marker>
                 <Marker position={[41.986663126758536, 21.43136836559754]} icon={eventIcon}>
