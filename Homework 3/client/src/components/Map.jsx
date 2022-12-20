@@ -1,10 +1,15 @@
 import React, { Component, useEffect} from 'react';
 import L from 'leaflet';
+import 'leaflet-routing-machine';
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 //styles
 import '../styles/Map.css';
-import { MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
+import { MDBBtn } from 'mdb-react-ui-kit';
+
+//components
+import Routing from './Routing.jsx';
 
 //custom marker icons
 var eventIcon = L.icon({
@@ -24,6 +29,7 @@ var userIcon = L.icon({
     popupAnchor: [1, -41],
     shadowSize: [41, 41]
 });
+
 
 class Map extends Component {
     //base state that stores latitute and longtitude coordinates of the city Berlin and the zoom level on the map
@@ -66,6 +72,9 @@ class Map extends Component {
     //Map and marker rendering, flying animation when the user is located
     render() {
         const position = [this.state.location.lat, this.state.location.lng];
+
+        const eventPosition = [41.99556830573725, 21.411310806864552]
+
         const FlyMapTo = () => {
             const map = useMap()
         
@@ -75,6 +84,7 @@ class Map extends Component {
 
             return null
         }
+
         return (
             <MapContainer className='map' center={position} zoom={this.state.zoom} scrollWheelZoom={true} zoomControl={false}>
                 <TileLayer
@@ -83,11 +93,17 @@ class Map extends Component {
                 />
                 {
                     this.state.allowedLocation?
+                    <>
                     <Marker position={position} icon={userIcon}>
                         <Popup>
                             Among Us.
                         </Popup>
-                    </Marker>:""
+                    </Marker> 
+                    
+                    <Routing user={position}  event={eventPosition}/>
+                    </>
+                    
+                    :""
                 }
                 <Marker position={[41.99556830573725, 21.411310806864552]} icon={eventIcon}>
                     <Popup >
@@ -97,7 +113,7 @@ class Map extends Component {
                         <h5 className='text-center'>13.10.2022 @ 21:30</h5><br />
                         <img src={require('../img/events/woodstock.jpg')} width="305" height="180"/><br />
                         <div className='text-center'>
-                            <MDBBtn color='dark' className='mt-4' >Get Directions <MDBIcon className="display-arrow " icon='arrow-right' fa /></MDBBtn>
+                            <MDBBtn color='dark' className='mt-4'>Get Directions <i className='fa fa-arrow-right' /></MDBBtn>
                         </div>
                     </Popup>
                 </Marker>
@@ -117,6 +133,7 @@ class Map extends Component {
                     </Popup>
                 </Marker>
                 <FlyMapTo />
+                
             </MapContainer>
         );
     }
