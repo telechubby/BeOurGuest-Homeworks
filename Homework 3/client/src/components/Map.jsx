@@ -39,7 +39,8 @@ class Map extends Component {
             lng: 21.4331,
         },
         zoom: 16,
-        allowedLocation: false
+        allowedLocation: false,
+        displayed: false
     }
 
     /*Called when the page is loaded, if the user denies access through their browser we get their location through their IP address using ipAPI
@@ -69,11 +70,15 @@ class Map extends Component {
         });
     }
 
+    displayRoute = (event) => {
+        this.setState({
+            displayed: true
+        });
+    }
+
     //Map and marker rendering, flying animation when the user is located
     render() {
         const position = [this.state.location.lat, this.state.location.lng];
-
-        const eventPosition = [41.99556830573725, 21.411310806864552]
 
         const FlyMapTo = () => {
             const map = useMap()
@@ -93,16 +98,11 @@ class Map extends Component {
                 />
                 {
                     this.state.allowedLocation?
-                    <>
                     <Marker position={position} icon={userIcon}>
                         <Popup>
                             Among Us.
                         </Popup>
                     </Marker> 
-                    
-                    <Routing user={position}  event={eventPosition}/>
-                    </>
-                    
                     :""
                 }
                 <Marker position={[41.99556830573725, 21.411310806864552]} icon={eventIcon}>
@@ -113,23 +113,48 @@ class Map extends Component {
                         <h5 className='text-center'>13.10.2022 @ 21:30</h5><br />
                         <img src={require('../img/events/woodstock.jpg')} width="305" height="180"/><br />
                         <div className='text-center'>
-                            <MDBBtn color='dark' className='mt-4'>Get Directions <i className='fa fa-arrow-right' /></MDBBtn>
+                            { this.state.displayed && <Routing user={position}  event={[41.99556830573725, 21.411310806864552]}/> }
+                            <MDBBtn color='dark' className='mt-4' onClick={()=>{this.displayRoute()}}>Get Directions <i className='fa fa-arrow-right' /></MDBBtn>
                         </div>
                     </Popup>
                 </Marker>
                 <Marker position={[41.986663126758536, 21.43136836559754]} icon={eventIcon}>
                     <Popup>
-                        Location: Pub "Beertija" <br />Event Name: Trivia <br />Date: 13.10.2022 <br />Start Time: 20:00
+                    <h2 className='text-center'>Pub "Beertija"</h2><br />
+                        <h4 className='text-center'>Trivija Night</h4><br />
+                        <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</h6><br />
+                        <h5 className='text-center'>13.10.2022 @ 21:30</h5><br />
+                        <img src={require('../img/events/woodstock.jpg')} width="305" height="180"/><br />
+                        <div className='text-center'>
+                            { this.state.displayed && <Routing user={position}  event={[41.986663126758536, 21.43136836559754]}/> }
+                            <MDBBtn color='dark' className='mt-4' onClick={()=>{this.displayRoute()}}>Get Directions <i className='fa fa-arrow-right' /></MDBBtn>
+                        </div>
                     </Popup>
                 </Marker>
                 <Marker position={[41.99586278632345, 21.42475615273467]} icon={eventIcon}>
                     <Popup>
-                        Location: Club "Epicentar" <br />Event Name: Techno <br />Date: 14.10.2022 <br />Start Time: 00:00
+                        <h2 className='text-center'>Club "Epicentar"</h2><br />
+                        <h4 className='text-center'>Techno Night</h4><br />
+                        <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</h6><br />
+                        <h5 className='text-center'>13.10.2022 @ 21:30</h5><br />
+                        <img src={require('../img/events/woodstock.jpg')} width="305" height="180"/><br />
+                        <div className='text-center'>
+                            { this.state.displayed && <Routing user={position}  event={[41.99586278632345, 21.42475615273467]}/> }
+                            <MDBBtn color='dark' className='mt-4' onClick={()=>{this.displayRoute()}}>Get Directions <i className='fa fa-arrow-right' /></MDBBtn>
+                        </div>
                     </Popup>
                 </Marker>
                 <Marker position={[41.989503524764686, 21.459925277428475]} icon={eventIcon}>
                     <Popup>
-                        Location: Pub "Sistem" <br />Event Name: Party <br />Date: 13.10.2022 <br />Start Time: 21:00
+                        <h2 className='text-center'>Club "Sistem"</h2><br />
+                        <h4 className='text-center'>Exyu Night</h4><br />
+                        <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</h6><br />
+                        <h5 className='text-center'>13.10.2022 @ 21:30</h5><br />
+                        <img src={require('../img/events/woodstock.jpg')} width="305" height="180"/><br />
+                        <div className='text-center'>
+                            { this.state.displayed && <Routing user={position}  event={[41.989503524764686, 21.459925277428475]}/> }
+                            <MDBBtn color='dark' className='mt-4' onClick={()=>{this.displayRoute()}}>Get Directions <i className='fa fa-arrow-right' /></MDBBtn>
+                        </div>
                     </Popup>
                 </Marker>
                 <FlyMapTo />
