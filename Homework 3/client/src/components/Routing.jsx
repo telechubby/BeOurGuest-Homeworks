@@ -1,26 +1,26 @@
-import { useEffect } from "react";
 import L from "leaflet";
-import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
-import { useMap } from "react-leaflet";
 
-export default function Routing({user, event}) {
-  const map = useMap();
+const createRoutingMachineLayer = ({user, event}) => {
+  const instance = L.Routing.control({
+    waypoints: [
+      L.latLng(user),
+      L.latLng(event)
+    ],
+    lineOptions: {
+      styles: [{ color: "red", weight: 5 }]
+    },
+    createMarker: function() { return null; },
+    routeWhileDragging: true,
+    draggableWaypoints: false,
+    fitSelectedRoutes: true,
+    showAlternatives: false
+  });
 
-  useEffect(() => {
-    if (!map) return;
+  return instance;
+};
 
-    const routingControl = L.Routing.control({
-      waypoints: [L.latLng(user), L.latLng(event)],
-      routeWhileDragging: true,
-      createMarker: function() { return null; },
-      lineOptions: {
-        styles: [{ color: "red", weight: 5 }]
-      }
-    }).addTo(map);
+const Routing = createControlComponent(createRoutingMachineLayer);
 
-    return () => map.removeControl(routingControl);
-  }, [map]);
-
-  return null;
-}
+export default Routing;
