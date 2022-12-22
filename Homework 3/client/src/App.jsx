@@ -9,6 +9,7 @@ import Map from './components/Map.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
+import Settings from './pages/Settings.jsx';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route exact path="/" element={<Home/>} />
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/signup" element={<SignUp/>} />
+        \<Route exact path="/settings" element={<Settings/>} />
         <Route exact path="/map" element={<Map/>} />
       </Routes>
     </Router>
