@@ -1,14 +1,13 @@
+//components
 import React, { Component, useEffect} from 'react';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import Event from './Event';
 
 //styles
 import '../styles/Map.css';
-
-//components
-import Event from './Event';
 
 //custom marker icon
 var userIcon = L.icon({
@@ -30,8 +29,11 @@ class Map extends Component {
                 lng: 21.4331,
             },
             zoom: 16,
-            allowedLocation: false
+            allowedLocation: false,
+            displayed: false
         }
+        this.displayRoute = this.displayRoute.bind(this);
+        this.removeRoute = this.removeRoute.bind(this);
     }
 
     /*Called when the page is loaded, if the user denies access through their browser we get their location through their IP address using ipAPI
@@ -61,6 +63,17 @@ class Map extends Component {
         });
     }
 
+    displayRoute() {
+        this.setState({
+            displayed: true
+        });
+    }
+    removeRoute() {
+        this.setState({
+            displayed: false
+        });
+    } 
+
     //Map and marker rendering, flying animation when the user is located
     render() {
         const position = [this.state.location.lat, this.state.location.lng];
@@ -78,16 +91,15 @@ class Map extends Component {
         return (
             <MapContainer className='map' center={position} zoom={this.state.zoom} scrollWheelZoom={true} zoomControl={false}>
                 <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                { this.state.allowedLocation ?
+                { this.state.allowedLocation &&
                     <Marker position={position} icon={userIcon}>
                         <Popup>
                             Among Us.
                         </Popup>
                     </Marker> 
-                    : ""
                 }
                 <Event 
                     userLocation={position} 
@@ -96,7 +108,10 @@ class Map extends Component {
                     eventTitle="Rock Party!"
                     eventDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
                     eventStart="13.10.2022 @ 21:30"
-                    eventImage="../img/events/woodstock.jpg"
+                    eventImage="woodstock.jpg"
+                    displayRoute={this.displayRoute}
+                    removeRoute={this.removeRoute}
+                    value={this.state.displayed}
                 />
                 <Event 
                     userLocation={position} 
@@ -105,7 +120,10 @@ class Map extends Component {
                     eventTitle="Trivia Night!"
                     eventDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
                     eventStart="14.10.2022 @ 22:30"
-                    eventImage="../img/events/woodstock.jpg"
+                    eventImage="beertija.jpg"
+                    displayRoute={this.displayRoute}
+                    removeRoute={this.removeRoute}
+                    value={this.state.displayed}
                 />
                 <FlyMapTo />
             </MapContainer>

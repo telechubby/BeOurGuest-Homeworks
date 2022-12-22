@@ -1,3 +1,4 @@
+//components
 import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
@@ -12,10 +13,12 @@ const createRoutingMachineLayer = ({user, event}) => {
       styles: [{ color: "red", weight: 5 }]
     },
     createMarker: function() { return null; },
+    show: true,
     routeWhileDragging: true,
     draggableWaypoints: false,
     fitSelectedRoutes: true,
-    showAlternatives: false
+    showAlternatives: false,
+    collapsible: false
   });
 
   return instance;
