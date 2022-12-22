@@ -15,7 +15,9 @@ const Settings = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    let enable = useState(false);
+    const [nameEdit, unlockNameEdit] = useState(true);
+    const [emailEdit, unlockEmailEdit] = useState(true);
+    const [passwordEdit, unlockPasswordEdit] = useState(true);
 
     //password validation vars
     let hasEightChar = (password.length >= 8) && (password.length <= 16);
@@ -26,23 +28,43 @@ const Settings = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('eee')
     }
       
     return (
         <MDBContainer className='mt-5 mb-5 col-10 col-sm-8 col-md-6 col-lg-5'>
             <form onSubmit={handleSubmit}>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Name" type='text' disabled={enable} value={name} onChange={(e) => setName(e.target.value)} />
-                    <MDBBtn color='dark'><i className="fa fa-lock" aria-hidden="true"></i></MDBBtn>
+                    <input className='form-control' placeholder="Name" type='text' disabled={nameEdit} value={name} onChange={(e) => setName(e.target.value)} />
+                    <MDBBtn color='dark' onClick={e => { 
+                                                        const val = e.target.value;
+                                                        unlockNameEdit(prev => !prev)
+                                                        }
+                                                }
+                    >
+                        <i className="fa fa-lock" aria-hidden="true"></i>
+                    </MDBBtn>
                 </MDBInputGroup>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Email" type='text' disabled={enable} value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <MDBBtn color='dark'><i className="fa fa-lock" aria-hidden="true"></i></MDBBtn>
+                    <input className='form-control' placeholder="Email" type='text' disabled={emailEdit} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <MDBBtn color='dark' onClick={e => { 
+                                                        const val = e.target.value;
+                                                        unlockEmailEdit(prev => !prev)
+                                                        }
+                                                }
+                    >
+                        <i className="fa fa-lock" aria-hidden="true"></i>
+                    </MDBBtn>
                 </MDBInputGroup>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Password" type='text' disabled={enable} value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <MDBBtn color='dark'><i className="fa fa-lock" aria-hidden="true"></i></MDBBtn>
+                    <input className='form-control' placeholder="Password" type='text' disabled={passwordEdit} value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <MDBBtn color='dark' onClick={e => { 
+                                                        const val = e.target.value;
+                                                        unlockPasswordEdit(prev => !prev)
+                                                        }
+                                                }
+                    >
+                        <i className="fa fa-lock" aria-hidden="true"></i>
+                    </MDBBtn>
                 </MDBInputGroup>
 
                 {password &&
