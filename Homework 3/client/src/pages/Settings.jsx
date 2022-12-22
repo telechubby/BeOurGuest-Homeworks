@@ -32,6 +32,7 @@ const Settings = () => {
       
     return (
         <MDBContainer className='mt-5 mb-5 col-10 col-sm-8 col-md-6 col-lg-5'>
+            <h1>User Settings</h1>
             <form onSubmit={handleSubmit}>
                 <MDBInputGroup className='mb-3'>
                     <input className='form-control' placeholder="Name" type='text' disabled={nameEdit} value={name} onChange={(e) => setName(e.target.value)} />
