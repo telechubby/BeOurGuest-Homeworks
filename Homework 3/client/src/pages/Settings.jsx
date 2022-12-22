@@ -46,7 +46,7 @@ const Settings = () => {
                     </MDBBtn>
                 </MDBInputGroup>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Email" type='text' disabled={emailEdit} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input className='form-control' placeholder="Email" type='email' disabled={emailEdit} value={email} onChange={(e) => setEmail(e.target.value)} />
                     <MDBBtn color='dark' onClick={e => { 
                                                         const val = e.target.value;
                                                         unlockEmailEdit(prev => !prev)
@@ -57,7 +57,7 @@ const Settings = () => {
                     </MDBBtn>
                 </MDBInputGroup>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Password" type='text' disabled={passwordEdit} value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input className='form-control' placeholder="Password" type='password' disabled={passwordEdit} value={password} onChange={(e) => setPassword(e.target.value)} />
                     <MDBBtn color='dark' onClick={e => { 
                                                         const val = e.target.value;
                                                         unlockPasswordEdit(prev => !prev)
