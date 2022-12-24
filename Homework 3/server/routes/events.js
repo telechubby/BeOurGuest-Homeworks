@@ -50,11 +50,22 @@ router.post("/create",upload.single('image'),(req,res)=>{
 })
 
 router.get("/",(req,res)=>{
-    mongoose.model('Event').find({},(err,found)=>{
-        if(err)
-            res.send(err)
-        res.send(found);
-    })
+    
+    if (req.query.hasOwnProperty('id')) {
+        let id=mongoose.Types.ObjectId(req.query.id)
+        mongoose.model('Event').findOne({_id:id},(err,found)=>{
+            if(err){
+                res.send(err)
+            }     
+            res.send(found);
+        })
+      } else {
+        mongoose.model('Event').find({},(err,found)=>{
+            if(err)
+                res.send(err)
+            res.send(found);
+        })
+      }
 })
 
 module.exports=router
