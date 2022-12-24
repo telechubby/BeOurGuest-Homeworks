@@ -9,6 +9,7 @@ import Map from './components/Map.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
+import Event from './pages/Event.jsx';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/signup" element={<SignUp/>} />
         <Route exact path="/map" element={<Map/>} />
+        <Route exact path="/event" element={<Event/>}/>
       </Routes>
     </Router>
   )

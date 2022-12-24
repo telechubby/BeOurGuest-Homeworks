@@ -14,8 +14,10 @@ router.set('views', path.join(__dirname, 'views'));
 router.set('view engine', 'jade');
   
 const usersRouter=require("./routes/users")
+const eventsRouter=require("./routes/events")
 
 router.use('/users', usersRouter);
+router.use('/events', eventsRouter);
 
 router.get('/', (req, res)=>{
     res.status(200);
