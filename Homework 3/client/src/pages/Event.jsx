@@ -38,9 +38,9 @@ class Event extends React.Component{
     }
     render() {
         return (
-            <ul style={{"listStyle":"none"}}>
+            <ul style={{"listStyle":"none","overflowY":"scroll","maxHeight":"90vh","maxWidth":"98vw","margin":"auto"}}>
                 {this.state.images.map(d => (<li key={d.image}>
-                    <div>
+                    <div style={{"margin":"3vw 3vh","borderBottom":"1px solid gray","paddingBottom":"10px"}}>
                         <h2>{d.name}</h2>
                         <h3>{d.description}</h3>
                         <h3>Time: {d.startTime} - {d.endTime}</h3>
