@@ -1,57 +1,67 @@
-import React from 'react'
+import React, { Suspense, useState} from 'react'
 import { Link, renderMatches } from 'react-router-dom';
 import {
   MDBContainer,
   MDBRow,
   MDBCol,
 } from 'mdb-react-ui-kit';
+import { useEffect } from 'react';
+function Event (){
+    
+    let params = window.location.href.split('/')[3]
+    let images=[]
+        return (
+            <Suspense fallback={<h2>Loading events...</h2>}><LoadEvents/></Suspense>
+        );
+}
+
 function arrayBufferToBase64(buffer) {
     var binary = '';
     var bytes = [].slice.call(new Uint8Array(buffer));
     bytes.forEach((b) => binary += String.fromCharCode(b));
     return window.btoa(binary);
 };
-class Event extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            images: []
-        };
-    };
 
-    componentDidMount() {
-        fetch('http://localhost:9000/events/')
-        .then((res) => res.json())
-        .then((events) => {
-            var imagearray=[]
-            events.forEach(function(event) {
-                var base64Flag = 'data:image/jpeg;base64,';
-                var imageStr =arrayBufferToBase64(event.image.data);
-                var tmpEvent=event
-                tmpEvent.image=base64Flag+imageStr
-                imagearray.push(tmpEvent)
-            });
-            this.setState({
-                images:imagearray
-            })
-        })
-    }
-    render() {
-        return (
-            <ul style={{"listStyle":"none","overflowY":"scroll","maxHeight":"90vh","maxWidth":"98vw","margin":"auto"}}>
-                {this.state.images.map(d => (<li key={d.image}>
-                    <div style={{"margin":"3vw 3vh","borderBottom":"1px solid gray","paddingBottom":"10px"}}>
-                        <h2>{d.name}</h2>
-                        <h3>{d.description}</h3>
-                        <h3>Time: {d.startTime} - {d.endTime}</h3>
-                        <h3>Contact: {d.contact}</h3>
-                        <img src={d.image} alt="Couldn't load" style={{height:"300px"}}/>
+function LoadEvents(){
+    const [events,setEvents]=useState([])
+
+        useEffect(()=>{
+            async function fetchData(){
+                const tmpEvents=[]
+                const response=await fetch('http://localhost:9000/events/')
+                const responseJSON=await response.json()
+                responseJSON.forEach((fetchedEvent)=>{
+                    var base64Flag = 'data:image;base64,';
+                    var imageStr =arrayBufferToBase64(fetchedEvent.image.data);
+                    var event=fetchedEvent
+                    event.image=base64Flag+imageStr
+                    tmpEvents.push(event)
+                })
+                setEvents(tmpEvents)
+            }
+
+            fetchData();
+        },[])
+        return(
+            <div id="events">
+                {events.map(event=>(
+                    <div key={event.image} style={{"overflowY":"scroll","maxHeight":"94vh","width":"86vw","margin":"auto"}}>
+                        <div style={{"display":"block","margin":"30px 30px","borderBottom":"1px solid gray","paddingBottom":"10px"}} key={event.image}>
+                    <h2>{event.name}</h2>
+                    <h3>{event.description}</h3>
+                    <h3>Time: {event.startTime} - {event.endTime}</h3>
+                    <h3>Contact: <a href={"tel:"+event.contact}>{event.contact}</a></h3>
                     </div>
-                    </li>))}
-            </ul>
-        );
-    }
-    
+                    
+                    <div style={{"display":"block","margin":"30px 30px","borderBottom":"1px solid gray","paddingBottom":"10px"}}>
+                    <img src={event.image} alt="Couldn't load" style={{"display": "block",
+                        "minHeight":"200px",
+                        "width": "auto",
+                        "height": "25vh"}}/>
+                    </div>
+                </div>
+                ))}
+            </div>
+        )
 }
-
 export default Event
