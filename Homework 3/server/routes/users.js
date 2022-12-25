@@ -66,6 +66,7 @@ router.post('/login',(req,res)=>{
   
         return res.json({
           message: "Successfully Logged In",
+          id: found._id,
           username: found.name,
           role: found.role
         });
@@ -123,7 +124,8 @@ router.get('/user', function(req, res) {
           return res.status(200).json ({
             message: "User is still logged in",
             username: req.user.name,
-            role: req.user.role
+            role: req.user.role,
+            id:req.user._id
           }); 
         });
     } catch(e) {
@@ -147,7 +149,7 @@ router.delete('/delete',(req,res)=>{
 //UPDATE user email
 
 router.put('/emailUpdate',(req,res)=>{
-  User.findOneAndUpdate({email:req.body.email},{email:req.body.newEmail},(err,found)=>{
+  User.findOneAndUpdate({_id:req.body.id},{email:req.body.newEmail},(err,found)=>{
     if(err)
         res.send('Error updating user email: '+err)
     else
@@ -158,9 +160,9 @@ router.put('/emailUpdate',(req,res)=>{
 //UPDATE user password
 
 router.put('/passwordUpdate',(req,res)=>{
-  User.findOneAndUpdate({email:req.body.email},{password_hash:req.body.new_password_hash},(err,found)=>{
+  User.findOneAndUpdate({_id:req.body.id},{password_hash:req.body.newPass},(err,found)=>{
     if(err)
-        res.send('Error updating user email: '+err)
+        res.send('Error updating user: '+err)
     else
       res.send('User password updated')
   }).catch(err=>console.log('Error occured '+err))
@@ -168,11 +170,16 @@ router.put('/passwordUpdate',(req,res)=>{
 
 //Update user name
 router.put('/nameUpdate',(req,res)=>{
-  User.findOneAndUpdate({email:req.body.email},{name:req.body.newName},(err,found)=>{
+  console.log(req.body)
+  User.findOneAndUpdate({_id:req.body.id},{name:req.body.newName},(err,found)=>{
     if(err)
         res.send('Error updating user name: '+err)
     else
-      res.send('User name updated')
+      {
+        if(found===null)
+          res.send('User not found')
+        res.send('User name updated')
+      }
   }).catch(err=>console.log('Error occured '+err))
 })
 

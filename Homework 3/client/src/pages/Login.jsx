@@ -2,6 +2,8 @@ import React, {useState, useContext} from 'react';
 import bcrypt from 'bcryptjs';
 import axios from 'axios';
 import { UserContext } from '../UserContext.js';
+import { RoleContext } from '../RoleContext.js';
+import { IDContext } from '../IDContext.js';
 import { Link } from 'react-router-dom';
 import {
     MDBInput,
@@ -18,7 +20,9 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
-    const {setUser} = useContext(UserContext);
+    const {user,setUser} = useContext(UserContext);
+    const {role,setRole} = useContext(RoleContext);
+    const {id,setId} = useContext(IDContext);
 
     async function login(){
         const hash=bcrypt.hashSync(password,'$2a$12$fZuOVnbxBokJcNLepXdQBu')
@@ -29,9 +33,10 @@ const Login = () => {
           setMessage(err.response.data)
         })
         if(res!==undefined){
-          setMessage('User logged in successfully. Redirecting to map...')
-          setUser(res.data.username);
-          window.location.href='/map';
+            setMessage('User logged in successfully. Redirecting to map...')
+            setUser(res.data.username)
+            setRole(res.data.role)
+            setId(res.data.id)
         }
       }
 
@@ -47,11 +52,12 @@ const Login = () => {
                     </MDBCol>
                 </MDBRow>
 
-                <MDBBtn color='dark' className='mb-4' onClick={login} block disabled={!email || !password}><MDBIcon icon='code' fas /> Login</MDBBtn>
+                <MDBBtn color='dark' className='mb-4' type='button' onClick={login} block disabled={!email || !password}><MDBIcon icon='code' fas /> Login</MDBBtn>
 
                 <div className='text-center'>
                     <p>Not a member? <Link to='/signup'>Sign Up</Link></p>
                 </div>
+                <p>{message}</p>
             </form>
         </MDBContainer>
     )

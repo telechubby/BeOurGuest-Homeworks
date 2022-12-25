@@ -15,16 +15,24 @@ import Places from './pages/Places.jsx';
 import Settings from './pages/Settings.jsx';
 
 import { getLoggedInUser } from './api/user.js';
+import { RoleContext } from './RoleContext.js';
+import { IDContext } from './IDContext.js';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     const unsubscribe = getLoggedInUser().then((res) => {
       if(res.error)  {
         console.log(res.error) 
       }
-      else setUser(res.username);
+      else{ 
+        setUser(res.username);
+        setRole(res.role);
+        setId(res.id)
+      }
     })
     .catch((err) => console.log(err));
 
@@ -34,6 +42,8 @@ const App = () => {
   return (
     <Router>
       <UserContext.Provider value={{user, setUser}}>
+      <RoleContext.Provider value={{role, setRole}}>
+      <IDContext.Provider value={{id, setId}}>
         <Header />
         <Routes>
           <Route exact path="/" element={user ? <Map /> : <Home />} />
@@ -44,6 +54,8 @@ const App = () => {
           <Route exact path="/events" element={user ? <Events /> : <Home />}/>
           <Route exact path="/places" element={user ? <Places /> : <Home />}/>
         </Routes>
+        </IDContext.Provider>
+        </RoleContext.Provider>
       </UserContext.Provider>
     </Router>
   )

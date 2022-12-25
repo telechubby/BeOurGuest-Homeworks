@@ -19,10 +19,14 @@ import {
 
 //styles
 import '../styles/Header.css';
+import { RoleContext } from '../RoleContext.js';
+import { IDContext } from '../IDContext.js';
 
 
 const Header = () => {
   const {user, setUser} = useContext(UserContext);
+  const {role, setRole} = useContext(RoleContext);
+  const {id, setId} = useContext(IDContext);
   const [showNavNoToggler, setShowNavNoToggler] = useState(false);
 
   async function logout(){
@@ -40,7 +44,6 @@ const Header = () => {
       <MDBNavbar expand='lg' sticky light bgColor='light'>
         <MDBContainer>
             <MDBNavbarBrand href='/' className='brandResize'>BeOurGuest</MDBNavbarBrand>
-
             <MDBNavbarToggler
               type='button'
               data-target='#navbarToggler'

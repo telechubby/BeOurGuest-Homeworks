@@ -131,7 +131,7 @@ const SignUp = () => {
                     </MDBCol>
                 </MDBRow>
 
-                <MDBBtn color='dark' className='mb-4' onClick={signUp} block disabled={
+                <MDBBtn color='dark' className='mb-4' type='button' onClick={signUp} block disabled={
                     !name ||
                     !email || 
                     !password ||
@@ -147,6 +147,7 @@ const SignUp = () => {
                 <div className='text-center'>
                     <p>Already a member? <Link to='/login'>Login</Link></p>
                 </div>
+                <p>{message}</p>
             </form>
         </MDBContainer>
     )
