@@ -11,6 +11,7 @@ import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Events from './pages/Events.jsx';
 import Places from './pages/Places.jsx';
+import Settings from './pages/Settings.jsx';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route exact path="/" element={<Home/>} />
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/signup" element={<SignUp/>} />
+        <Route exact path="/settings" element ={<Settings/>} />
         <Route exact path="/map" element={<Map/>} />
         <Route exact path="/events" element={<Events/>}/>
         <Route exact path="/places" element={<Places/>}/>
