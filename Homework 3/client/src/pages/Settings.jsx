@@ -38,7 +38,7 @@ const Settings = () => {
 
     //Clear the forms on button click
     const handleSubmit = (e) => {
-        e.preventDefault();
+       
     }
     const handleName = (val) => {
         setName("");
@@ -61,6 +61,7 @@ const Settings = () => {
         if(res!==undefined){
             setMessage(res.data)
         }
+        window.location.assign('/settings')
     }
 
     const updateMail = async () =>{
@@ -73,6 +74,7 @@ const Settings = () => {
         if(res!==undefined){
             setMessage(res.data)
         }
+        window.location.assign('/settings')
     }
 
     const updatePassword = async () =>{
@@ -83,12 +85,14 @@ const Settings = () => {
         }, {withCredentials: true}).catch(err=>{
           setMessage(err.response.data)
         })
+        window.location.assign('/settings')
     }
     
       
     return (
         <MDBContainer className='mt-5 mb-5 col-10 col-sm-8 col-md-6 col-lg-5'>
             <h1>User Settings</h1>
+            <h4>My role: {role}</h4>
             <form onSubmit={handleSubmit}>
                 <MDBInputGroup className='mb-3'>
                     <input className='form-control' placeholder="Name" type='text' value={name} onChange={(e) => setName(e.target.value)} />

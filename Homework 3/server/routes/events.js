@@ -21,6 +21,7 @@ const eventSchema=new mongoose.Schema({
     place_id: {type: String, required:true},
     description: {type:String, required:true},
     startTime:{type:String,required:true},
+    date:{type:String,required:true},
     endTime:{type:String,required:true},
     image: {type:Buffer,contentType: String, required:true},
     contact: {type:String,required:true}
@@ -28,11 +29,13 @@ const eventSchema=new mongoose.Schema({
 
 const Event=mongoose.model('Event',eventSchema)
 
-router.post("/create",upload.single('image'),(req,res)=>{
+router.post("/create",upload.single('file'),(req,res)=>{
+    console.log(req.body)
     const newEvent=new Event({
         name:req.body.name,
         place_id:req.body.place_id,
         description:req.body.description,
+        date:req.body.date,
         startTime:req.body.startTime,
         endTime:req.body.endTime,
         image:fs.readFileSync(req.file.path),

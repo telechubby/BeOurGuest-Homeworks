@@ -11,6 +11,7 @@ import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Events from './pages/Events.jsx';
+import CreateEvent from './pages/CreateEvent.jsx';
 import Places from './pages/Places.jsx';
 import Settings from './pages/Settings.jsx';
 
@@ -52,6 +53,7 @@ const App = () => {
           <Route exact path="/settings" element={user ? <Settings /> : <Home />} />
           <Route exact path="/map" element={user ? <Map /> : <Home />} />
           <Route exact path="/events" element={user ? <Events /> : <Home />}/>
+          <Route exact path="/createevent" element={role==='manager' ? <CreateEvent /> : <Events />}/>
           <Route exact path="/places" element={user ? <Places /> : <Home />}/>
         </Routes>
         </IDContext.Provider>

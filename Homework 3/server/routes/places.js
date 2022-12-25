@@ -17,16 +17,39 @@ const PlaceSchema=new mongoose.Schema({
     name: {type: String, required:true},
     contact: {type:String,required:true}
 })
+
 const Place=mongoose.model('Place',PlaceSchema)
 
-
-router.get("/",(req,res)=>{
-    
-        mongoose.model('Place').find({},(err,found)=>{
+router.get('/ownerplaces',(req,res)=>{
+    if(req.query.hasOwnProperty('id')){
+        let id=mongoose.Types.ObjectId(req.query.id)
+        mongoose.model('Place').find({owner_id:id},(err,found)=>{
             if(err)
                 res.send(err)
             res.send(found);
         })
+    }
+    else{
+        res.send()
+    }
+})
+
+router.get("/",(req,res)=>{
+        if(req.query.hasOwnProperty('id')){
+            let id=mongoose.Types.ObjectId(req.query.id)
+            mongoose.model('Place').find({_id:id},(err,found)=>{
+                if(err)
+                    res.send(err)
+                res.send(found);
+            })
+        }
+        else{
+            mongoose.model('Place').find({},(err,found)=>{
+                if(err)
+                    res.send(err)
+                res.send(found);
+            })
+        }
         
       
 })

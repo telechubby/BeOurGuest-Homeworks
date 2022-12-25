@@ -14,7 +14,8 @@ import {
     MDBDropdown, 
     MDBDropdownMenu, 
     MDBDropdownToggle, 
-    MDBDropdownItem
+    MDBDropdownItem,
+    MDBNavbarLink
 } from 'mdb-react-ui-kit';
 
 //styles
@@ -57,6 +58,13 @@ const Header = () => {
 
             <MDBCollapse navbar show={showNavNoToggler}>
               <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
+              {user && role==='manager'?<MDBNavbarItem><MDBBtn outline className='me-3' size='lg' color='dark' href='/createevent'>Create event</MDBBtn></MDBNavbarItem>:""}
+              {user?
+              <MDBNavbarItem><MDBBtn outline className='me-3' size='lg' color='dark' href='/events'>
+              Events
+            </MDBBtn></MDBNavbarItem>
+            :""}
+            {user?<MDBNavbarItem><MDBBtn outline className='me-3' size='lg' color='dark' href='/places'>Places</MDBBtn></MDBNavbarItem>:""}
                 <MDBNavbarItem>
                   {user && <a className="nav-link active iconRemove me-3 linkFix" aria-current="page" href="/settings">Hello, {user}!</a>}
                 </MDBNavbarItem>
@@ -82,7 +90,7 @@ const Header = () => {
                   </MDBNavbarItem>
                 </div>
 
-                <MDBDropdown className='me-3 marginFix iconRemove'>
+                {user?<MDBDropdown className='me-3 marginFix iconRemove'>
                   <MDBDropdownToggle tag='a' role='button' className='colorIcon'>
                     <MDBIcon icon='bell' fas size='lg' />
                     <span className="badge rounded-pill badge-notification bg-danger">1</span>
@@ -93,7 +101,7 @@ const Header = () => {
                     <MDBDropdownItem divider />
                     <MDBDropdownItem link>Something else here</MDBDropdownItem>
                   </MDBDropdownMenu>
-                </MDBDropdown>
+                </MDBDropdown>:""}
 
                 <MDBNavbarItem>
                   <MDBBtn tag='a' color='none' href='https://github.com/telechubby/BeOurGuest-Homeworks' className='nav-link me-3 mt-1 iconRemove'><MDBIcon icon='github' fab size='lg' className='colorIcon'/></MDBBtn>

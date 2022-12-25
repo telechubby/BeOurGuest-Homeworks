@@ -23,26 +23,78 @@ function LoadPlaces(){
     const [searchField, setSearchField] = useState("");
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
+    const placeID=queryParams.get('id')
+    const ownerID=queryParams.get('owner_id')
         useEffect(()=>{
             async function fetchData(){
-                    const tmpPlaces=[]
-                    const response=await fetch('http://localhost:9000/places')
-                    const responseJSON=await response.json()
-                    responseJSON.forEach((fetchedPlace)=>{
-                        var place=fetchedPlace
-                        tmpPlaces.push(place)
-                    })
-                    setFilteredPlaces(tmpPlaces)
-                    setPlaces(tmpPlaces)
-                
+                    if(placeID!==undefined && placeID!==null){
+                        const tmpPlaces=[]
+                        const response=await fetch('http://localhost:9000/places?id='+placeID)
+                        const responseJSON=await response.json()
+                        responseJSON.forEach((fetchedPlace)=>{
+                            var place=fetchedPlace
+                            tmpPlaces.push(place)
+                        })
+                        setFilteredPlaces(tmpPlaces)
+                        setPlaces(tmpPlaces)
+                    }
+                    else if(ownerID!==undefined && ownerID!==null){
+                        const tmpPlaces=[]
+                        const response=await fetch('http://localhost:9000/places/ownerplaces?id='+ownerID)
+                        const responseJSON=await response.json()
+                        responseJSON.forEach((fetchedPlace)=>{
+                            var place=fetchedPlace
+                            tmpPlaces.push(place)
+                        })
+                        setFilteredPlaces(tmpPlaces)
+                        setPlaces(tmpPlaces)
+                        console.log(responseJSON)
+                    }
+                    else{
+                        const tmpPlaces=[]
+                        const response=await fetch('http://localhost:9000/places')
+                        const responseJSON=await response.json()
+                        responseJSON.forEach((fetchedPlace)=>{
+                            var place=fetchedPlace
+                            tmpPlaces.push(place)
+                        })
+                        setFilteredPlaces(tmpPlaces)
+                        setPlaces(tmpPlaces)
+                    }
             }
 
             fetchData();
         },[])
         let handleChange=t=>{
-            setFilteredPlaces(places.filter(e=>e.Name.toLowerCase().includes(t.target.value.toLowerCase())))
+            setFilteredPlaces(places.filter(e=>transliterate(e.Name.toLowerCase()).includes(transliterate(t.target.value.toLowerCase())) || e.Amenity.toLowerCase().includes(transliterate(t.target.value.toLowerCase()))))
+        }
+
+        let firstLetterUpper=text=>{
+            return text[0].toUpperCase()+text.substring(1)
         }
         
+        function transliterate(word){
+            var answer = ""
+              , a = {};
+        
+           a["Ё"]="Yo";a["Й"]="I";a["Ц"]="C";a["У"]="U";a["К"]="K";a["Е"]="E";a["Н"]="N";a["Г"]="G";a["Ш"]="Sh";a["Щ"]="Sch";a["З"]="Z";a["Х"]="H";a["Ъ"]="'";
+           a["ё"]="yo";a["й"]="i";a["ц"]="c";a["у"]="u";a["к"]="k";a["е"]="e";a["н"]="n";a["г"]="g";a["ш"]="sh";a["щ"]="sch";a["з"]="z";a["х"]="h";a["ъ"]="'";
+           a["Ф"]="F";a["Ы"]="I";a["В"]="V";a["А"]="А";a["П"]="P";a["Р"]="R";a["О"]="O";a["Л"]="L";a["Д"]="D";a["Ж"]="Zh";a["Э"]="E";a['Ќ']='Kj';a['Џ']='Dj';
+           a["ф"]="f";a["ы"]="i";a["в"]="v";a["а"]="a";a["п"]="p";a["р"]="r";a["о"]="o";a["л"]="l";a["д"]="d";a["ж"]="zh";a["э"]="e";a['ќ']='kj';a['џ']='dj';
+           a["Я"]="Ya";a["Ч"]="Ch";a["С"]="S";a["М"]="M";a["И"]="I";a["Т"]="T";a["Ь"]="'";a["Б"]="B";a["Ю"]="Yu";
+           a["я"]="ya";a["ч"]="ch";a["с"]="s";a["м"]="m";a["и"]="i";a["т"]="t";a["ь"]="'";a["б"]="b";a["ю"]="yu";
+        
+           for (var i in word){
+             if (word.hasOwnProperty(i)) {
+               if (a[word[i]] === undefined){
+                 answer += word[i];
+               } else {
+                 answer += a[word[i]];
+               }
+             }
+           }
+           return answer;
+        }
 
         return(
             <div id="places" style={{"overflowY":"scroll","height":"88vh","margin":"auto"}}>
@@ -55,14 +107,15 @@ function LoadPlaces(){
                     style={{"width":"50%", "margin":"auto"}}
                     ></input>
                 </div>
-                <div className='title' >Листа на локали</div>
+                <div className='title' >Explore places</div>
                 {filteredPlaces.map(place=>(
-                    <div className="place" style={{"margin":"50px"}} > 
-                    <h2>{"Место: " + place.Name}</h2>
-                    <h6>{"Тип: " + place.Amenity}</h6>
-                    <h5>{"Локација: " + place.Street + " - " + place.Suburb}</h5>
-                    <h5>{"Работно време: " + place.WorkingHours}</h5>
-                    <a href={place.Website} target='_blank'>{"Контакт : " + place.Website}</a>
+                    <div className="place" style={{"margin":"50px"}}  key={place._id}> 
+                    <h2>{place.Name}</h2>
+                    <h6>{firstLetterUpper(place.Amenity.replace("_"," ").replace(";",", "))}</h6>
+                    <h5>{"Location: " + place.Street + " - " + place.Suburb}</h5>
+                    {place['Working hours']?<h5>{"Working hours: " + String(place['Working hours']).replace('; ',' | ').replace(', ',' | ')}</h5>:""}
+                    {place.Website?<a href={place.Website} target='_blank'>{"Website : " + place.Website}<br/></a>:""}
+                    {place['Phone no']!==undefined?<a href={'tel:'+place['Phone no'][""]}>{"Phone: "+place['Phone no'][""].split(';')[0]}</a>:""}
                     </div>
                 ))}
             </div>

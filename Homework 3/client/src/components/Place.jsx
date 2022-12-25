@@ -51,11 +51,16 @@ export class Place extends Component {
                     <Popup>
                         <h2 className='text-center'>{this.props.eventOrg}</h2>
                         <div className='text-center'>
-                            { this.state.displayed && <Routing user={this.props.userLocation} event={this.props.eventLocation} /> }
-                            <MDBBtn color='dark' className='mt-0' style={{margin:'10px 0'}} onClick={() => { this.props.displayRoute(); this.setDisplay()}} disabled={this.props.value}>Get Directions <i className='fa fa-arrow-right' /></MDBBtn> 
+                            <MDBBtn color='dark' className='mt-0' style={{margin:'10px 0', textDecoration:"none", color:"white", width:"90%"}} href={'/places?id='+this.props.eventId}>Show place</MDBBtn> 
                         </div>
-                        <h6 className='text-center'><a href={'/events?id='+this.props.eventId}>View this place's upcoming events</a></h6>
-                    </Popup>
+                        <div className='text-center'>
+                            <MDBBtn color='dark' className='mt-0' style={{margin:'10px 0', textDecoration:"none", color:"white", width:"90%"}} href={'/events?id='+this.props.eventId}>Show events for this place</MDBBtn> 
+                        </div>
+                        <div className='text-center'>
+                            { this.state.displayed && <Routing user={this.props.userLocation} event={this.props.eventLocation} /> }
+                            <MDBBtn color='danger' className='mt-0' style={{margin:'10px 0', width:"90%"}} onClick={() => { this.props.displayRoute(); this.setDisplay()}} disabled={this.props.value}>Get Directions <i className='fa fa-arrow-right' /></MDBBtn> 
+                        </div>
+                        </Popup>
                 </Marker>
             </>  
         )
