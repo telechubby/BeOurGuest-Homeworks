@@ -122,7 +122,7 @@ class Map extends Component {
                 {   this.state.markers &&
                     this.state.markers.map(place=>{
                         return(
-                            <Place 
+                            <Place key={place._id}
                             userLocation={position} 
                             eventLocation={[place.Latitude, place.Longtitude]}
                             eventOrg={place.Name}

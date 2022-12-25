@@ -17,6 +17,11 @@ const usersRouter=require("./routes/users")
 const eventsRouter=require("./routes/events")
 const placesRouter=require("./routes/places")
 
+router.use(logger('dev'));
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
+router.use(cookieParser());
+router.use(express.static(path.join(__dirname, 'public')));
 
 router.use('/users', usersRouter);
 router.use('/events', eventsRouter);
