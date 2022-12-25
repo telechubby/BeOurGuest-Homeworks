@@ -1,9 +1,13 @@
 import React, { Suspense, useState} from 'react'
 import { Link, renderMatches, useLocation } from 'react-router-dom';
 import {
-  MDBContainer,
-  MDBRow,
-  MDBCol,
+    MDBInput,
+    MDBCol,
+    MDBRow,
+    MDBContainer,
+    MDBCheckbox,
+    MDBBtn,
+    MDBIcon
 } from 'mdb-react-ui-kit';
 import { useEffect } from 'react';
 function Events (){
@@ -80,13 +84,14 @@ function LoadEvents(){
         }
 
         return(
-            <div id="events" style={{"overflowY":"scroll","height":"88vh","width":"86vw","margin":"auto"}}>
+            <div id="events" style={{"overflowY":"scroll","height":"88vh","margin":"auto"}}>
                 <div id="search" style={{"marginTop":"20px"}}>
                 <input id="searchBox"
-                    className="pa3 bb br3 grow b--none bg-lightest-blue ma3"
+                    className="pa3 bb br3 grow b--none bg-lightest-blue ma3 form-control"
                     type = "search" 
                     placeholder = "Search Events"
                     onChange={handleChange}
+                    style={{"width":"50%", "margin":"auto"}}
                     ></input>
                 </div>
                 {filteredEvents.map(event=>(
@@ -102,11 +107,11 @@ function LoadEvents(){
                     
                     <div style={{"margin":"auto", "textAlign":"center", "width":"500px"}}>
                     <img src={event.image} alt="Couldn't load" style={{"display": "block","margin":"auto",
-
-                            "maxWidth":"320px",
-                            "maxHeight":"350px",
-                            "width": "45vw",
-                            "height": "auto"}}/>
+                            "minHeight":"200px",
+                            "maxWidth":"500px",
+                            "maxHeight":"250px",
+                            "width": "auto",
+                            "height": "25vh"}}/>
                     </div>
                 </div>
                     </div>

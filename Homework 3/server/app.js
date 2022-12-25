@@ -15,9 +15,13 @@ router.set('view engine', 'jade');
   
 const usersRouter=require("./routes/users")
 const eventsRouter=require("./routes/events")
+const placesRouter=require("./routes/places")
+
 
 router.use('/users', usersRouter);
 router.use('/events', eventsRouter);
+router.use('/places', placesRouter);
+
 
 router.get('/', (req, res)=>{
     res.status(200);
