@@ -40,7 +40,7 @@ function LoadPlaces(){
                     }
                     else if(ownerID!==undefined && ownerID!==null){
                         const tmpPlaces=[]
-                        const response=await fetch('http://localhost:9000/places/ownerplaces?id='+ownerID)
+                        const response=await fetch('http://localhost:9000/ownerplaces?id='+ownerID)
                         const responseJSON=await response.json()
                         responseJSON.forEach((fetchedPlace)=>{
                             var place=fetchedPlace
