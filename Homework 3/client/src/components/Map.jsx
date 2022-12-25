@@ -4,7 +4,7 @@ import L from 'leaflet';
 import 'leaflet-routing-machine';
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
-import Event from './Event';
+import Place from './Place';
 
 //styles
 import '../styles/Map.css';
@@ -12,6 +12,15 @@ import '../styles/Map.css';
 //custom marker icon
 var userIcon = L.icon({
     iconUrl:  require('../img/markers/marker-icon-red.png'),
+    shadowUrl: require('../img/markers/marker-shadow.png'),
+    iconSize: [25, 41],
+    iconAnchor: [12.5, 41],
+    popupAnchor: [1, -41],
+    shadowSize: [41, 41]
+});
+
+var placeIcon = L.icon({
+    iconUrl:  require('../img/markers/marker-icon-blue.png'),
     shadowUrl: require('../img/markers/marker-shadow.png'),
     iconSize: [25, 41],
     iconAnchor: [12.5, 41],
@@ -30,7 +39,8 @@ class Map extends Component {
             },
             zoom: 16,
             allowedLocation: false,
-            displayed: false
+            displayed: false,
+            markers:[]
         }
         this.displayRoute = this.displayRoute.bind(this);
         this.removeRoute = this.removeRoute.bind(this);
@@ -47,9 +57,9 @@ class Map extends Component {
                 },
                 allowedLocation: true
             });
-        }, () => {
+        },async  () => {
             console.log('ERROR: Location access denied! Fetching location based on IP address.');
-            fetch('https://ipapi.co/json')
+            await fetch('https://ipapi.co/json')
                 .then(res => res.json())
                 .then(location => {
                     this.setState({
@@ -61,6 +71,14 @@ class Map extends Component {
                     });
                 });
         });
+        this.loadMarkers();
+    }
+
+    async loadMarkers(){
+        const {markers} = this.state
+        fetch('http://localhost:9000/places/')
+        .then(res=>res.json())
+        .then(places=>this.setState({markers:places}))
     }
 
     displayRoute() {
@@ -101,30 +119,21 @@ class Map extends Component {
                         </Popup>
                     </Marker> 
                 }
-                <Event 
-                    userLocation={position} 
-                    eventLocation={[41.99556830573725, 21.411310806864552]}
-                    eventOrg='Rock bar "Woodstock"'
-                    eventTitle="Rock Party!"
-                    eventDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
-                    eventStart="13.10.2022 @ 21:30"
-                    eventImage="woodstock.jpg"
-                    displayRoute={this.displayRoute}
-                    removeRoute={this.removeRoute}
-                    value={this.state.displayed}
-                />
-                <Event 
-                    userLocation={position} 
-                    eventLocation={[41.986663126758536, 21.43136836559754]}
-                    eventOrg='Pub "Beertija"'
-                    eventTitle="Trivia Night!"
-                    eventDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
-                    eventStart="14.10.2022 @ 22:30"
-                    eventImage="beertija.jpg"
-                    displayRoute={this.displayRoute}
-                    removeRoute={this.removeRoute}
-                    value={this.state.displayed}
-                />
+                {   this.state.markers &&
+                    this.state.markers.map(place=>{
+                        return(
+                            <Place 
+                            userLocation={position} 
+                            eventLocation={[place.Latitude, place.Longtitude]}
+                            eventOrg={place.Name}
+                            eventId={place._id}
+                            displayRoute={this.displayRoute}
+                            removeRoute={this.removeRoute}
+                            value={this.state.displayed}
+                        />
+                        )
+                    })
+                }
                 <FlyMapTo />
             </MapContainer>
         );

@@ -17,9 +17,6 @@ function Places (){
         );
 }
 
-
-
-
 function LoadPlaces(){
     const [places,setPlaces]=useState([])
     const [filteredPlaces,setFilteredPlaces]=useState([])
