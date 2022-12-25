@@ -1,4 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
+import bcrypt from 'bcryptjs';
+import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {
     MDBInput,
@@ -15,6 +17,7 @@ const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [terms, setTerms] = useState(false);
+    const [message,setMessage]=useState("");
 
     //password validation vars
     let hasEightChar = (password.length >= 8) && (password.length <= 16);
@@ -22,6 +25,28 @@ const SignUp = () => {
     let hasUpperChar = /(.*[A-Z].*)/.test(password);
     let hasNumber = /(.*[0-9].*)/.test(password);
     let hasSpecialChar = /(.*[^a-zA-Z0-9].*)/.test(password);
+
+    async function signUp(){
+        if(!terms){
+          setMessage('You must agree to the terms in order to register')
+          return
+        }
+        else{
+          const hash=bcrypt.hashSync(password,'$2a$12$fZuOVnbxBokJcNLepXdQBu')
+          const res = await axios.put('http://localhost:9000/users/create',{
+            name:name,
+            email:email,
+            password_hash:hash,
+            role: 'user'
+          }).catch(err=>{
+            setMessage(err.response.data)
+          })
+          if(res!==undefined){
+            setMessage('User created successfully. Redirecting to login...')
+            window.location.href='/login'
+          }
+        }
+    }
 
     return (
         <MDBContainer className='mt-5 mb-5 col-10 col-sm-8 col-md-6 col-lg-5'>
@@ -106,7 +131,7 @@ const SignUp = () => {
                     </MDBCol>
                 </MDBRow>
 
-                <MDBBtn color='dark' className='mb-4' block disabled={
+                <MDBBtn color='dark' className='mb-4' type='button' onClick={signUp} block disabled={
                     !name ||
                     !email || 
                     !password ||
@@ -122,6 +147,7 @@ const SignUp = () => {
                 <div className='text-center'>
                     <p>Already a member? <Link to='/login'>Login</Link></p>
                 </div>
+                <p>{message}</p>
             </form>
         </MDBContainer>
     )

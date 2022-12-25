@@ -1,4 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState,useContext, useEffect} from 'react'
+import { UserContext } from '../UserContext.js';
+import bcrypt from 'bcryptjs';
+import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {
     MDBInput,
@@ -10,16 +13,21 @@ import {
     MDBIcon,
     MDBInputGroup
 } from 'mdb-react-ui-kit';
+import { RoleContext } from '../RoleContext.js';
+import { IDContext } from '../IDContext.js';
 
 const Settings = () => {
     //useStates
+
+    const {user,setUser} = useContext(UserContext);
+    const {role,setRole} = useContext(RoleContext);
+    const {id,setId} = useContext(IDContext);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [nameEdit, unlockNameEdit] = useState(true);
-    const [emailEdit, unlockEmailEdit] = useState(true);
-    const [passwordEdit, unlockPasswordEdit] = useState(true);
+    const [message,setMessage]=useState("")
+
 
     //password validation vars
     let hasEightChar = (password.length >= 8) && (password.length <= 16);
@@ -30,7 +38,7 @@ const Settings = () => {
 
     //Clear the forms on button click
     const handleSubmit = (e) => {
-        e.preventDefault();
+       
     }
     const handleName = (val) => {
         setName("");
@@ -42,50 +50,70 @@ const Settings = () => {
         setPassword("");
         setConfirmPassword("");
     };
+
+    const updateName = async () =>{
+        let res=await axios.put('http://localhost:9000/users/nameUpdate',{
+          newName:name,
+          id:id
+        }, {withCredentials: true}).catch(err=>{
+          setMessage(err.response.data)
+        })
+        if(res!==undefined){
+            setMessage(res.data)
+        }
+        window.location.assign('/settings')
+    }
+
+    const updateMail = async () =>{
+        let res=await axios.put('http://localhost:9000/users/emailUpdate',{
+          newEmail:email,
+          id:id
+        }, {withCredentials: true}).catch(err=>{
+          setMessage(err.response.data)
+        })
+        if(res!==undefined){
+            setMessage(res.data)
+        }
+        window.location.assign('/settings')
+    }
+
+    const updatePassword = async () =>{
+        const hash=bcrypt.hashSync(password,'$2a$12$fZuOVnbxBokJcNLepXdQBu')
+        let res=await axios.put('http://localhost:9000/users/passwordUpdate',{
+          id:id,
+          newPass:hash,
+        }, {withCredentials: true}).catch(err=>{
+          setMessage(err.response.data)
+        })
+        window.location.assign('/settings')
+    }
     
       
     return (
         <MDBContainer className='mt-5 mb-5 col-10 col-sm-8 col-md-6 col-lg-5'>
             <h1>User Settings</h1>
+            <h4>My role: {role}</h4>
             <form onSubmit={handleSubmit}>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Name" type='text' disabled={nameEdit} value={name} onChange={(e) => setName(e.target.value)} />
-                    <MDBBtn color='dark' onClick={e => { 
-                                                        const val = e.target.value;
-                                                        unlockNameEdit(prev => !prev);
-                                                        handleName();
-                                                        }
-                                                }
-                    >
-                        <i className="fa fa-lock" aria-hidden="true"></i>
-                    </MDBBtn>
+                    <input className='form-control' placeholder="Name" type='text' value={name} onChange={(e) => setName(e.target.value)} />
+                    
                 </MDBInputGroup>
+                <MDBBtn color='dark' className='mt-1'style={{"marginBottom":"20px"}} type='button' onClick={updateName} block disabled={ 
+                    (!(name==null || name.replace(" ","").length>2))
+                    }>
+                        <MDBIcon icon='code' fas /> Change Name
+                </MDBBtn>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Email" type='email' disabled={emailEdit} value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <MDBBtn color='dark' onClick={e => { 
-                                                        const val = e.target.value;
-                                                        unlockEmailEdit(prev => !prev);
-                                                        handleEmail();
-                                                        }
-                                                }
-                    >
-                        <i className="fa fa-lock" aria-hidden="true"></i>
-                    </MDBBtn>
+                    <input className='form-control' placeholder="Email" type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
                 </MDBInputGroup>
+                <MDBBtn color='dark' className='mt-1'style={{"marginBottom":"20px"}} type='button' onClick={updateMail} block disabled={ 
+                    (!(email==null || /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)))
+                    }>
+                        <MDBIcon icon='code' fas /> Change Email
+                </MDBBtn>
                 <MDBInputGroup className='mb-3'>
-                    <input className='form-control' placeholder="Password" type='password' disabled={passwordEdit} value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <MDBBtn color='dark' onClick={e => { 
-                                                        const val = e.target.value;
-                                                        unlockPasswordEdit(prev => !prev);
-                                                        handlePassword();
-                                                        }
-                                                }
-                    >
-                        <i className="fa fa-lock" aria-hidden="true"></i>
-                    </MDBBtn>
+                    <input className='form-control' placeholder="Password" type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 </MDBInputGroup>
-
-                {password && !passwordEdit &&
                     <div className='ms-1' style={{columns: 2}}>
                         <div>
                             {hasEightChar ? (
@@ -153,11 +181,10 @@ const Settings = () => {
                             )}
                         </div>
                     </div>
-                }
 
-                { !passwordEdit && <input className='form-control' placeholder="Confirm Password" type='password' disabled={passwordEdit} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} /> }
+                <input className='form-control' placeholder="Confirm Password" type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
-                { confirmPassword && !passwordEdit &&
+                
                     <div className='ms-1' style={{columns: 2}}>
                         <div>
                             { confirmPassword === password ? (
@@ -173,9 +200,9 @@ const Settings = () => {
                             )}
                         </div>
                     </div>
-                }
-                <MDBBtn color='dark' className='mt-4' block disabled={ 
-                    (!passwordEdit && (!(confirmPassword == password) ||
+                
+                <MDBBtn color='dark' className='mt-4' type='button' onClick={updatePassword} block disabled={ 
+                    ((!(confirmPassword == password) ||
                     (!hasEightChar ||
                     !hasLowerChar ||
                     !hasUpperChar ||
@@ -183,8 +210,9 @@ const Settings = () => {
                     !hasSpecialChar))
                     )
                     }>
-                        <MDBIcon icon='code' fas /> Save Changes
+                        <MDBIcon icon='code' fas /> Change Password
                 </MDBBtn>
+                <p>{message}</p>
             </form>
         </MDBContainer>
     )
