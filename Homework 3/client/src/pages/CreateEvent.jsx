@@ -16,7 +16,7 @@ const CreateEvent = () => {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState("");
     const [contact, setContact] = useState("");
     const [terms,setTerms]=useState(false);
     const [message,setMessage]=useState("");

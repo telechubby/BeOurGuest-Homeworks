@@ -1,4 +1,5 @@
 import React, { Suspense, useState} from 'react'
+import { RoleContext } from '../RoleContext.js';
 import { Link, renderMatches, useLocation } from 'react-router-dom';
 import {
     MDBInput,
@@ -10,6 +11,9 @@ import {
     MDBIcon
 } from 'mdb-react-ui-kit';
 import { useEffect } from 'react';
+import { DeleteEventModal } from '../components/DeleteEventModal';
+import { EditEventModal } from '../components/EditEventModal';
+import { useContext } from 'react';
 function Events (){
     let images=[]
         return (
@@ -25,8 +29,14 @@ function arrayBufferToBase64(buffer) {
 };
 
 function LoadEvents(){
+    const { role, setRole } = useContext(RoleContext);
     const [events,setEvents]=useState([])
     const [filteredEvents,setFilteredEvents]=useState([])
+
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
+    const [selectedEvent, setSelectedEvent] = useState()
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false)
+
     const [searchField, setSearchField] = useState("");
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -85,6 +95,7 @@ function LoadEvents(){
         }
 
         return(
+            <>
             <div id="events" style={{"overflowY":"scroll","height":"88vh","margin":"auto"}}>
                 <div id="search" style={{"marginTop":"20px"}}>
                 <input id="searchBox"
@@ -95,6 +106,12 @@ function LoadEvents(){
                     style={{"width":"50%", "margin":"auto"}}
                     ></input>
                 </div>
+
+                {/* {role === "manager" &&
+                            <div><MDBBtn style={{ "margin": "50px" }} color='dark' outline size='lg' href='/createevent'>Add Event</MDBBtn></div>        
+                } */}
+
+
                 {filteredEvents.map(event=>(
                     <div className="event" key={event.image}> 
                         <div key={event.image} style={{"maxHeight":"94vh","margin":"auto", 
@@ -115,10 +132,20 @@ function LoadEvents(){
                             "width": "auto",
                             "height": "25vh"}}/>
                     </div>
+                    {(role === "manager" || role === "admin") &&
+                            <><div><MDBBtn className='shadow-4 m-4' color='dark' onClick={()=> {setSelectedEvent(event); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
+                                <div><MDBBtn className='shadow-4 m-4' color='dark' onClick={() => { setSelectedEvent(event); setIsDeleteModalVisible(true); }}><MDBIcon  fas /> Delete</MDBBtn></div></>
+                    }
                 </div>
+                        
+
+                        
                     </div>
                 ))}
             </div>
+            {selectedEvent !== undefined && <DeleteEventModal isVisible={isDeleteModalVisible} setIsVisible={setIsDeleteModalVisible} event={selectedEvent} />}
+            {selectedEvent !== undefined && <EditEventModal isVisible={isEditModalVisible} setIsVisible={setIsEditModalVisible} event={selectedEvent} />}
+            </>
         )
 }
 export default Events

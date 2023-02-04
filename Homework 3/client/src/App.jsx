@@ -14,6 +14,7 @@ import Events from './pages/Events.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
 import Places from './pages/Places.jsx';
 import Settings from './pages/Settings.jsx';
+import AddPlace from './pages/AddPlace.jsx';
 
 import { getLoggedInUser } from './api/user.js';
 import { RoleContext } from './RoleContext.js';
@@ -55,6 +56,7 @@ const App = () => {
           <Route exact path="/events" element={user ? <Events /> : <Home />}/>
           <Route exact path="/createevent" element={role==='manager' ? <CreateEvent /> : <Events />}/>
           <Route exact path="/places" element={user ? <Places /> : <Home />}/>
+          <Route exact path="/addplace" element={role==='manager' ? <AddPlace /> : <Places />}/>
         </Routes>
         </IDContext.Provider>
         </RoleContext.Provider>
