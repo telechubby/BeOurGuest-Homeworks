@@ -18,15 +18,33 @@ const PlaceSchema=new mongoose.Schema({
     contact: {type:String,required:true}
 })
 
+const OwnerSchema=new mongoose.Schema({
+    user_id:{type: String, required:true},
+    place_id:{type:String, required:true}
+})
+
 const Place=mongoose.model('Place',PlaceSchema)
+const Owner=mongoose.model('Owner',OwnerSchema)
 
 router.get('/ownerplaces',(req,res)=>{
     if(req.query.hasOwnProperty('id')){
         let id=mongoose.Types.ObjectId(req.query.id)
-        mongoose.model('Place').find({owner_id:id},(err,found)=>{
+        mongoose.model('Owner').find({user_id:id},(err,found)=>{
             if(err)
                 res.send(err)
-            res.send(found);
+            places=[]
+            placeIds=[]
+            found.forEach(element => {
+                placeId=mongoose.Types.ObjectId(element.place_id)
+                placeIds.push(placeId)
+            });
+            mongoose.model('Place').find({
+                '_id': { $in: placeIds}
+            }, function(err, docs){
+                 if(err)
+                    res.send(err)
+                res.send(docs)
+            });
         })
     }
     else{

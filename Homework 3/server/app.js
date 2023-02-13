@@ -16,6 +16,7 @@ router.set('view engine', 'jade');
 const usersRouter=require("./routes/users")
 const eventsRouter=require("./routes/events")
 const placesRouter=require("./routes/places")
+const notificationsRouter=require("./routes/notifications")
 
 router.use(logger('dev'));
 router.use(express.json());
@@ -26,6 +27,7 @@ router.use(express.static(path.join(__dirname, 'public')));
 router.use('/users', usersRouter);
 router.use('/events', eventsRouter);
 router.use('/places', placesRouter);
+router.use('/notifications', notificationsRouter)
 
 
 router.get('/', (req, res)=>{

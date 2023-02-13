@@ -119,6 +119,7 @@ function LoadEvents(){
                         <div style={{"margin":"auto", "textAlign":"center", "width":"250", "padding":"20px"}} key={event.image}>
                     <h2>{event.name}</h2>
                     <h3>{event.description}</h3>
+                    <h3>Location: {event.place_name}</h3>
                     <h3>Date: {event.date}</h3>
                     <h3>Time: {event.startTime} - {event.endTime}</h3>
                     <h3>Contact: <a href={"tel:"+event.contact}>{event.contact}</a></h3>

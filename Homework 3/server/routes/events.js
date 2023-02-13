@@ -19,6 +19,7 @@ mongoose.connect(
 const eventSchema=new mongoose.Schema({
     name: {type: String, required:true},
     place_id: {type: String, required:true},
+    place_name: {type: String, required:true},
     description: {type:String, required:true},
     startTime:{type:String,required:true},
     date:{type:String,required:true},
@@ -34,6 +35,7 @@ router.post("/create",upload.single('file'),(req,res)=>{
     const newEvent=new Event({
         name:req.body.name,
         place_id:req.body.place_id,
+        place_name:req.body.place_name,
         description:req.body.description,
         date:req.body.date,
         startTime:req.body.startTime,

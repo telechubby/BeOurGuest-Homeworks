@@ -1,3 +1,7 @@
+html,body{
+    overflow: auto;
+}
+
 .place{
     width: 90%;
     margin-left: auto;

@@ -119,7 +119,6 @@ function LoadPlaces() {
                 }
 
                 {filteredPlaces.map(place => (
-                    
                     <div className="place" style={{ "margin": "50px" }} key={place._id}>
                             {(role === "manager" || role === "admin") &&
                             <><div><MDBBtn className='shadow-4 float-end m-4' color='dark' onClick={()=> {setSelectedPlace(place); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
