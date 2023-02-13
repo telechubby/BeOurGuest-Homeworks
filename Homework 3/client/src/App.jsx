@@ -27,16 +27,16 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = getLoggedInUser().then((res) => {
-      if(res.error)  {
-        console.log(res.error) 
+      if (res.error) {
+        console.log(res.error);
       }
-      else{ 
+      else {
         setUser(res.username);
         setRole(res.role);
-        setId(res.id)
+        setId(res.id);
       }
     })
-    .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
 
     return () => unsubscribe;
   }, []);
@@ -48,15 +48,15 @@ const App = () => {
       <IDContext.Provider value={{id, setId}}>
         <Header />
         <Routes>
-          <Route exact path="/" element={user ? <Map /> : <Home />} />
-          <Route exact path="/login" element={user ? <Map /> : <Login />} />
-          <Route exact path="/signup" element={user ? <Map /> : <SignUp />} />
-          <Route exact path="/settings" element={user ? <Settings /> : <Home />} />
-          <Route exact path="/map" element={user ? <Map /> : <Home />} />
-          <Route exact path="/events" element={user ? <Events /> : <Home />}/>
-          <Route exact path="/createevent" element={role==='manager' ? <CreateEvent /> : <Events />}/>
-          <Route exact path="/places" element={user ? <Places /> : <Home />}/>
-          <Route exact path="/addplace" element={role==='manager' ? <AddPlace /> : <Places />}/>
+          <Route path="/" element={user ? <Map /> : <Home />} />
+          <Route path="/login" element={user ? <Map /> : <Login />} />
+          <Route path="/signup" element={user ? <Map /> : <SignUp />} />
+          <Route path="/settings" element={user ? <Settings /> : <Home />} />
+          <Route path="/map" element={user ? <Map /> : <Home />} />
+          <Route path="/events" element={user ? <Events /> : <Home />}/>
+          <Route path="/createevent" element={role==='manager' ? <CreateEvent /> : <Events />}/>
+          <Route path="/places" element={user ? <Places /> : <Home />}/>
+          <Route path="/addplace" element={role==='manager' ? <AddPlace /> : <Places />}/>
         </Routes>
         </IDContext.Provider>
         </RoleContext.Provider>

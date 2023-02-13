@@ -17,14 +17,13 @@ const AddPlace = () => {
     const [municipality, setMunicipality] = useState("");
     const [longitude, setLongitude] = useState("");
     const [latitude, setLatitude] = useState("");
-    //  ? const [categories, setCategories] = useState("");
     const [phone,setPhone]=useState("");
     const [amenity,setAmenity]=useState("");
     const [cusine,setCusine]=useState("");
     const [website,setWebsite]=useState("");
     const [workinghours,setWorkingHours]=useState("");
 
-    const [terms,setTerms]=useState(false);
+    const [terms,setTerms]=useState("false");
     const [message,setMessage]=useState("");
  
     const addPlace=async()=>{
@@ -42,7 +41,7 @@ const AddPlace = () => {
           data.append('website', website);
           data.append('workinghours', workinghours);
 
-        const res = await axios.post('',data,
+        const res = await axios.post('http://localhost:9000/places/addPlace',data,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -73,7 +72,7 @@ const AddPlace = () => {
                 <MDBInput className='mb-4 shadow-3'  label='WorkingHours' onChange={(e) => setWorkingHours(e.target.value)}/>
                 <MDBRow className='mb-4'>
                     <MDBCol className='d-flex justify-content-center'>
-                        <MDBCheckbox value={terms} onChange={setTerms} label='I accept terms and conditions' />
+                        <MDBCheckbox value={terms} onChange={(e)=>setTerms(e.target.value)} label='I accept terms and conditions' />
                     </MDBCol>
                 </MDBRow>
 

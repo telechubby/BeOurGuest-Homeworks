@@ -18,7 +18,7 @@ const CreateEvent = () => {
     const [endTime, setEndTime] = useState("");
     const [image, setImage] = useState("");
     const [contact, setContact] = useState("");
-    const [terms,setTerms]=useState(false);
+    const [terms,setTerms]=useState("false");
     const [message,setMessage]=useState("");
  
     const createEvent=async()=>{
@@ -32,7 +32,6 @@ const CreateEvent = () => {
           data.append('endTime', endTime);
           data.append('contact', contact);
 
-        const file=image
         const res = await axios.post('http://localhost:9000/events/create',data,
             {
                 headers: {
@@ -60,7 +59,7 @@ const CreateEvent = () => {
                 <MDBInput className='mb-4 shadow-3'  label='Contact'  onChange={(e) => setContact(e.target.value)}/>
                 <MDBRow className='mb-4'>
                     <MDBCol className='d-flex justify-content-center'>
-                        <MDBCheckbox value={terms} onChange={setTerms} label='I accept terms and conditions' />
+                        <MDBCheckbox value={terms} onChange={(e)=>setTerms(e.target.value)} label='I accept terms and conditions' />
                     </MDBCol>
                 </MDBRow>
 
