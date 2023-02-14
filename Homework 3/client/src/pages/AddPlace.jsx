@@ -41,7 +41,6 @@ const AddPlace = () => {
           data.append('cusine', cusine);
           data.append('website', website);
           data.append('workinghours', workinghours);
-
         const res = await axios.post('http://localhost:9000/places/addPlace',data,
             {
                 headers: {

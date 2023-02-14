@@ -113,10 +113,14 @@ function LoadEvents(){
 
 
                 {filteredEvents.map(event=>(
+                    
                     <div className="event" key={event.image}> 
                         <div key={event.image} style={{"maxHeight":"94vh","margin":"auto", 
                     "display":'flex', "flexWrap":'wrap', "paddingTop":"50px","paddingBottom":"50px", "borderBottom":"1px solid gray"}}>
                         <div style={{"margin":"auto", "textAlign":"center", "width":"250", "padding":"20px"}} key={event.image}>
+                    
+                    <div>
+                    </div>
                     <h2>{event.name}</h2>
                     <h3>{event.description}</h3>
                     <h3>Location: {event.place_name}</h3>
@@ -132,11 +136,11 @@ function LoadEvents(){
                             "maxHeight":"250px",
                             "width": "auto",
                             "height": "25vh"}}/>
-                    </div>
                     {(role === "manager" || role === "admin") &&
-                            <><div><MDBBtn className='shadow-4 m-4' color='dark' onClick={()=> {setSelectedEvent(event); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
-                                <div><MDBBtn className='shadow-4 m-4' color='dark' onClick={() => { setSelectedEvent(event); setIsDeleteModalVisible(true); }}><MDBIcon  fas /> Delete</MDBBtn></div></>
+                    <><div style={{display:"inline-block"}}><MDBBtn className='shadow-4 m-4' color='dark' onClick={()=> {setSelectedEvent(event); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
+                        <div style={{display:"inline-block"}}><MDBBtn className='shadow-4 m-4' color='dark' onClick={() => { setSelectedEvent(event); setIsDeleteModalVisible(true); }}><MDBIcon  fas /> Delete</MDBBtn></div></>
                     }
+                    </div>
                 </div>
                         
 

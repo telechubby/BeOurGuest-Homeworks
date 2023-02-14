@@ -17,7 +17,7 @@ function Places() {
 }
 
 function LoadPlaces() {
-    const { role, setRole } = useContext(RoleContext);
+    const { role } = useContext(RoleContext);
     const [places, setPlaces] = useState([])
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
     const [selectedPlace, setSelectedPlace] = useState()
@@ -120,11 +120,11 @@ function LoadPlaces() {
 
                 {filteredPlaces.map(place => (
                     <div className="place" style={{ "margin": "50px" }} key={place._id}>
+                        <div>
                             {(role === "manager" || role === "admin") &&
                             <><div><MDBBtn className='shadow-4 float-end m-4' color='dark' onClick={()=> {setSelectedPlace(place); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
                                 <div><MDBBtn className='shadow-4 float-end m-4' color='dark' onClick={() => { setSelectedPlace(place); setIsDeleteModalVisible(true); }}><MDBIcon  fas /> Delete</MDBBtn></div></>
                             }
-                        <div>
                             <h2>{place.Name}</h2>
                             <h6>{firstLetterUpper(place.Amenity.replace("_", " ").replace(";", ", "))}</h6>
                             <h5>{"Location: " + place.Street + " - " + place.Suburb}</h5>
