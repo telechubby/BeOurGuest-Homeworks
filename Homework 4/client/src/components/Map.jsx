@@ -76,7 +76,7 @@ class Map extends Component {
 
     async loadMarkers(){
         const {markers} = this.state
-        fetch(process.env.REACT_APP_BASE_URL+'/places/')
+        fetch('http://'+process.env.REACT_APP_BASE_URL+'/places/')
         .then(res=>res.json())
         .then(places=>this.setState({markers:places}))
     }

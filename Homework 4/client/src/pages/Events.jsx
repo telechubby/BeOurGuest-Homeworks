@@ -47,7 +47,7 @@ function LoadEvents(){
                 if(eventID!==null){
                     try{
                         const tmpEvents=[]
-                        const response=await fetch(process.env.REACT_APP_BASE_URL+'events?id='+eventID)
+                        const response=await fetch('http://'+process.env.REACT_APP_BASE_URL+'events?id='+eventID)
                         const responseJSON=await response.json()
                         var base64Flag = 'data:image;base64,';
                         var imageStr =arrayBufferToBase64(responseJSON.image.data);
@@ -58,7 +58,7 @@ function LoadEvents(){
                     }
                     catch{
                         const tmpEvents=[]
-                    const response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
+                    const response=await fetch('http://'+process.env.REACT_APP_BASE_URL+'/events/')
                     const responseJSON=await response.json()
                     responseJSON.forEach((fetchedEvent)=>{
                         var base64Flag = 'data:image;base64,';
@@ -73,7 +73,7 @@ function LoadEvents(){
                 }
                 else{
                     const tmpEvents=[]
-                    const response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
+                    const response=await fetch('http://'+process.env.REACT_APP_BASE_URL+'/events/')
                     const responseJSON=await response.json()
                     responseJSON.forEach((fetchedEvent)=>{
                         var base64Flag = 'data:image;base64,';
