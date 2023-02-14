@@ -32,7 +32,7 @@ function LoadPlaces() {
         async function fetchData() {
             if (placeID !== undefined && placeID !== null) {
                 const tmpPlaces = []
-                const response = await fetch('https://'+process.env.REACT_APP_BASE_URL+'/places?id=' + placeID)
+                const response = await fetch(process.env.REACT_APP_BASE_URL+'/places?id=' + placeID)
                 const responseJSON = await response.json()
                 responseJSON.forEach((fetchedPlace) => {
                     var place = fetchedPlace
@@ -43,7 +43,7 @@ function LoadPlaces() {
             }
             else if (ownerID !== undefined && ownerID !== null) {
                 const tmpPlaces = []
-                const response = await fetch('https://'+process.env.REACT_APP_BASE_URL+'/ownerplaces?id=' + ownerID)
+                const response = await fetch(process.env.REACT_APP_BASE_URL+'/ownerplaces?id=' + ownerID)
                 const responseJSON = await response.json()
                 responseJSON.forEach((fetchedPlace) => {
                     var place = fetchedPlace
@@ -55,7 +55,7 @@ function LoadPlaces() {
             }
             else {
                 const tmpPlaces = []
-                const response = await fetch('https://'+process.env.REACT_APP_BASE_URL+'/places')
+                const response = await fetch(process.env.REACT_APP_BASE_URL+'/places')
                 const responseJSON = await response.json()
                 responseJSON.forEach((fetchedPlace) => {
                     var place = fetchedPlace

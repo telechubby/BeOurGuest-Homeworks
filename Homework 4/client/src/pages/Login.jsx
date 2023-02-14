@@ -26,17 +26,18 @@ const Login = () => {
 
     async function login(){
         const hash=bcrypt.hashSync(password,'$2a$12$fZuOVnbxBokJcNLepXdQBu')
-        let res=await axios.post('https://'+process.env.REACT_APP_BASE_URL+'/users/login',{
+        let res=await axios.post(process.env.REACT_APP_BASE_URL+'/users/login',{
           email:email,
           password_hash:hash,
         }, {withCredentials: true}).catch(err=>{
           setMessage(err.response.data)
         })
         if(res!==undefined){
+            console.log(res['data'])
             setMessage('User logged in successfully. Redirecting to map...')
-            setUser(res.data.username)
-            setRole(res.data.role)
-            setId(res.data.id)
+            setUser(res['data']['username'])
+            setRole(res['data']['role'])
+            setId(res['data']['id'])
         }
       }
 

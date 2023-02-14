@@ -42,7 +42,7 @@ function LoadCreateEvent()
         datePicker.setAttribute('min',new Date().toISOString().split("T")[0])
         async function fetchData() {
             const tmpPlaces = []
-            const response = await fetch('https://'+process.env.REACT_APP_BASE_URL+'/places/ownerplaces?id='+id)
+            const response = await fetch(process.env.REACT_APP_BASE_URL+'/places/ownerplaces?id='+id)
             const responseJSON = await response.json()
             responseJSON.forEach((fetchedPlace) => {
                 var place = fetchedPlace
@@ -68,7 +68,7 @@ function LoadCreateEvent()
         data.append('endTime', endTime);
         data.append('contact', contact);
 
-      const res = await axios.post('https://'+process.env.REACT_APP_BASE_URL+'/events/create',data,
+      const res = await axios.post(process.env.REACT_APP_BASE_URL+'/events/create',data,
           {
               headers: {
                   'Content-Type': 'multipart/form-data'

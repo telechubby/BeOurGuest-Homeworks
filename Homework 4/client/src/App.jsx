@@ -31,9 +31,9 @@ const App = () => {
         console.log(res.error);
       }
       else {
-        setUser(res.username);
-        setRole(res.role);
-        setId(res.id);
+        setUser(res['username']);
+        setRole(res['role']);
+        setId(res['id']);
       }
     })
       .catch((err) => console.log(err));

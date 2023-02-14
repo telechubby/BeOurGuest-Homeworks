@@ -33,19 +33,13 @@ router.use('/places', placesRouter);
 router.use('/notifications', notificationsRouter)
 
 
-https
-    .createServer(
-        // Provide the private and public key to the server by reading each
-        // file's content with the readFileSync() method.
-    {
-    key: fs.readFileSync("key.pem"),
-    cert: fs.readFileSync("cert.pem"),
-    },
-    router
-    )
-  .listen(process.env.SERVER_PORT, ()=>{
-    console.log('Server is runing at port '+process.env.SERVER_PORT)
-  });
+router.listen(PORT, (error) =>{
+  if(!error)
+      console.log("Server is Successfully Running, and App is listening on port "+ PORT)
+  else 
+      console.log("Error occurred, server can't start", error);
+  }
+);
 
 router.get("/",(req,res)=>{
     res.send("Hello to Server")

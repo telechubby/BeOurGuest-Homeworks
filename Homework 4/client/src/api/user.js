@@ -1,11 +1,14 @@
+import axios from 'axios';
+
 export const getLoggedInUser = async ()  => {
     try {
-        const res = await fetch('https://' +process.env.REACT_APP_BASE_URL+'/users/user', {
+        const res = await axios({
             method: 'GET',
-            credentials: 'include'
+            url:process.env.REACT_APP_BASE_URL+'/users/user',
+            withCredentials:true
         });
-
-        return await res.json();
+        console.log(res)
+        return res['data']
     } catch (err) {
         throw new Error("Please login to continue");
     }
