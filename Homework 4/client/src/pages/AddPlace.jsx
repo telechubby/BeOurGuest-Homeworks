@@ -41,7 +41,7 @@ const AddPlace = () => {
           data.append('cusine', cusine);
           data.append('website', website);
           data.append('workinghours', workinghours);
-        const res = await axios.post('http://localhost:9000/places/addPlace',data,
+        const res = await axios.post(process.env.REACT_APP_BASE_URL+'/places/addPlace',data,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'

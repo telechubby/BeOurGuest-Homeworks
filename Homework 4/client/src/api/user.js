@@ -1,6 +1,6 @@
 export const getLoggedInUser = async ()  => {
     try {
-        const res = await fetch(`http://localhost:9000/users/user`, {
+        const res = await fetch(process.env.REACT_APP_BASE_URL+'/users/user', {
             method: 'GET',
             credentials: 'include'
         });
