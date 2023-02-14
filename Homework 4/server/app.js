@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
+const https = require("https");
+const fs=require("fs");
+
 require("dotenv").config();
   
 const router = express();
@@ -30,15 +33,20 @@ router.use('/places', placesRouter);
 router.use('/notifications', notificationsRouter)
 
 
-router.get('/', (req, res)=>{
-    res.status(200);
-    res.send("Welcome to root URL of Server");
-});
+https
+    .createServer(
+        // Provide the private and public key to the server by reading each
+        // file's content with the readFileSync() method.
+    {
+    key: fs.readFileSync("key.pem"),
+    cert: fs.readFileSync("cert.pem"),
+    },
+    router
+    )
+  .listen(process.env.SERVER_PORT, ()=>{
+    console.log('Server is runing at port '+process.env.SERVER_PORT)
+  });
 
-router.listen(PORT, (error) =>{
-    if(!error)
-        console.log("Server is Successfully Running, and App is listening on port "+ PORT)
-    else 
-        console.log("Error occurred, server can't start", error);
-    }
-);
+router.get("/",(req,res)=>{
+    res.send("Hello to Server")
+})

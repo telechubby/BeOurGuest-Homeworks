@@ -33,7 +33,7 @@ const SignUp = () => {
         }
         else{
           const hash=bcrypt.hashSync(password,'$2a$12$fZuOVnbxBokJcNLepXdQBu')
-          const res = await axios.put('http://'+process.env.REACT_APP_BASE_URL+'/users/create',{
+          const res = await axios.put('https://'+process.env.REACT_APP_BASE_URL+'/users/create',{
             name:name,
             email:email,
             password_hash:hash,

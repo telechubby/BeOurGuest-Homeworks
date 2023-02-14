@@ -52,7 +52,7 @@ const Settings = () => {
     };
 
     const updateName = async () =>{
-        let res=await axios.put(process.env.REACT_APP_BASE_URL+'/users/nameUpdate',{
+        let res=await axios.put('https://'+process.env.REACT_APP_BASE_URL+'/users/nameUpdate',{
           newName:name,
           id:id
         }, {withCredentials: true}).catch(err=>{
@@ -65,7 +65,7 @@ const Settings = () => {
     }
 
     const updateMail = async () =>{
-        let res=await axios.put(process.env.REACT_APP_BASE_URL+'/users/emailUpdate',{
+        let res=await axios.put('https://'+process.env.REACT_APP_BASE_URL+'/users/emailUpdate',{
           newEmail:email,
           id:id
         }, {withCredentials: true}).catch(err=>{
@@ -79,7 +79,7 @@ const Settings = () => {
 
     const updatePassword = async () =>{
         const hash=bcrypt.hashSync(password,'$2a$12$fZuOVnbxBokJcNLepXdQBu')
-        let res=await axios.put(process.env.REACT_APP_BASE_URL+'/users/passwordUpdate',{
+        let res=await axios.put('https://'+process.env.REACT_APP_BASE_URL+'/users/passwordUpdate',{
           id:id,
           newPass:hash,
         }, {withCredentials: true}).catch(err=>{

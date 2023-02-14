@@ -26,7 +26,7 @@ const Login = () => {
 
     async function login(){
         const hash=bcrypt.hashSync(password,'$2a$12$fZuOVnbxBokJcNLepXdQBu')
-        let res=await axios.post('http://'+process.env.REACT_APP_BASE_URL+'/users/login',{
+        let res=await axios.post('https://'+process.env.REACT_APP_BASE_URL+'/users/login',{
           email:email,
           password_hash:hash,
         }, {withCredentials: true}).catch(err=>{
