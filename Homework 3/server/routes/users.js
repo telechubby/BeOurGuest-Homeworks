@@ -138,7 +138,7 @@ router.get('/user', function(req, res) {
 
 //DELETE user
 router.delete('/delete',(req,res)=>{
-  User.deleteOne({email:req.body.email},(err,found)=>{
+  User.deleteOne({_id:req.body.id},(err,found)=>{
     if(!err)
       res.send('User deleted')
     else
@@ -159,33 +159,30 @@ router.put('/emailUpdate',(req,res)=>{
 
 //UPDATE user password
 
-router.put('/passwordUpdate',(req,res)=>{
-  User.findOneAndUpdate({_id:req.body.id},{password_hash:req.body.newPass},(err,found)=>{
-    if(err)
-        res.send('Error updating user: '+err)
-    else
-      res.send('User password updated')
-  }).catch(err=>console.log('Error occured '+err))
-})
-
-//Update user name
-router.put('/nameUpdate',(req,res)=>{
-  console.log(req.body)
-  User.findOneAndUpdate({_id:req.body.id},{name:req.body.newName},(err,found)=>{
-    if(err)
-        res.send('Error updating user name: '+err)
-    else
-      {
-        if(found===null)
-          res.send('User not found')
-        res.send('User name updated')
-      }
-  }).catch(err=>console.log('Error occured '+err))
-})
-
-
-router.get("/test",(req,res)=>{
-    res.status(200).send("Welcome to the test of users controller")
+router.put('/update',(req,res)=>{
+  let id=req.body.id;
+  let email=req.body.email
+  let password_hash=req.body.password_hash
+  let name=req.body.name
+  mongoose.model('User').findOne({_id:id},(err,foundUser)=>{
+    if(err || foundUser===null)
+      res.send(err)
+    mongoose.model('User').find({},(err,foundUsers)=>{
+      foundUsers.foreach(otherUser=>{
+          if(otherUser._id!==id && otherUser.email===email)
+            res.status(505).send('Cannot set that email address since another user is using it.')
+      })
+      mongoose.model('User').findOneAndUpdate({_id:id},{
+        email:email,
+        password_hash:password_hash,
+        name:name
+      },(err,newFoundUser)=>{
+          if(err)
+            res.send(err)
+          res.send('User data updated')
+      })
+    })
+  })
 })
 
 module.exports=router

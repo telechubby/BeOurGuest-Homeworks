@@ -5,3 +5,6 @@ Homework 2/.DS_Store
 Homework 2/Code/.DS_Store
 Homework 2/Code/server/.DS_Store
 Homework 3/server/.DS_Store
+cert.pem
+csr.pem
+key.pem
