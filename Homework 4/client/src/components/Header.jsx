@@ -31,7 +31,7 @@ const Header = () => {
   const [showNavNoToggler, setShowNavNoToggler] = useState(false);
 
   async function logout(){
-    let res=await axios.get(process.env.REACT_APP_BASE_URL+'/users/logout').catch(err=>{
+    let res=await axios.get(process.env.REACT_APP_BASE_URL+'/users/logout', {withCredentials: true}).catch(err=>{
       console.log(err.response.data)
     })
     if(res!==undefined){

@@ -29,14 +29,14 @@ const Login = () => {
         let res=await axios.post(process.env.REACT_APP_BASE_URL+'/users/login',{
           email:email,
           password_hash:hash,
-        }).catch(err=>{
+        }, {withCredentials: true}).catch(err=>{
           setMessage(err.response.data)
         })
         if(res!==undefined){
             setMessage('User logged in successfully. Redirecting to map...')
-            setUser(res['data']['username'])
-            setRole(res['data']['role'])
-            setId(res['data']['id'])
+            setUser(res.data.username)
+            setRole(res.data.role)
+            setId(res.data.id)
         }
       }
 
