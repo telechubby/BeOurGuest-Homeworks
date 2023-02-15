@@ -15,10 +15,12 @@ import CreateEvent from './pages/CreateEvent.jsx';
 import Places from './pages/Places.jsx';
 import Settings from './pages/Settings.jsx';
 import AddPlace from './pages/AddPlace.jsx';
+import Users from './pages/Users.jsx';
 
 import { getLoggedInUser } from './api/user.js';
 import { RoleContext } from './RoleContext.js';
 import { IDContext } from './IDContext.js';
+
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -27,16 +29,16 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = getLoggedInUser().then((res) => {
-      if (res.error) {
-        console.log(res.error);
+      if(res.error)  {
+        console.log(res.error) 
       }
-      else {
-        setUser(res['username']);
-        setRole(res['role']);
-        setId(res['id']);
+      else{ 
+        setUser(res.username);
+        setRole(res.role);
+        setId(res.id)
       }
-    })
-      .catch((err) => console.log(err));
+    },)
+    .catch((err) => console.log(err));
 
     return () => unsubscribe;
   }, []);
@@ -54,9 +56,10 @@ const App = () => {
           <Route path="/settings" element={user ? <Settings /> : <Home />} />
           <Route path="/map" element={user ? <Map /> : <Home />} />
           <Route path="/events" element={user ? <Events /> : <Home />}/>
-          <Route path="/createevent" element={role==='manager' ? <CreateEvent /> : <Events />}/>
+          <Route path="/createevent" element={user?(role==='manager' ? <CreateEvent /> : <Events />):<Home/>}/>
           <Route path="/places" element={user ? <Places /> : <Home />}/>
           <Route path="/addplace" element={role==='manager' ? <AddPlace /> : <Places />}/>
+          <Route path="/users" element={user?(role==='admin' ? <Users /> : <Events />):<Home/>}/>
         </Routes>
         </IDContext.Provider>
         </RoleContext.Provider>

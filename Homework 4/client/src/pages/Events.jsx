@@ -41,52 +41,52 @@ function LoadEvents(){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const eventID=queryParams.get('id')
-    const mine=queryParams.get('mine')
-        useEffect(()=>{
-            async function fetchData(){
-                if(eventID!==null){
-                    try{
-                        const tmpEvents=[]
-                        const response=await fetch(process.env.REACT_APP_BASE_URL+'events?id='+eventID)
-                        const responseJSON=await response.json()
-                        var base64Flag = 'data:image;base64,';
-                        var imageStr =arrayBufferToBase64(responseJSON.image.data);
-                        var event=responseJSON
-                        event.image=base64Flag+imageStr
-                        tmpEvents.push(event)
-                        setEvents(tmpEvents)
-                    }
-                    catch{
-                        const tmpEvents=[]
-                    const response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
-                    const responseJSON=await response.json()
-                    responseJSON.forEach((fetchedEvent)=>{
-                        var base64Flag = 'data:image;base64,';
-                        var imageStr =arrayBufferToBase64(fetchedEvent.image.data);
-                        var event=fetchedEvent
-                        event.image=base64Flag+imageStr
-                        tmpEvents.push(event)
-                    })
-                    setEvents(tmpEvents)
-                    setFilteredEvents(tmpEvents)
-                    }
-                }
-                else{
-                    const tmpEvents=[]
-                    const response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
-                    const responseJSON=await response.json()
-                    responseJSON.forEach((fetchedEvent)=>{
-                        var base64Flag = 'data:image;base64,';
-                        var imageStr =arrayBufferToBase64(fetchedEvent.image.data);
-                        var event=fetchedEvent
-                        event.image=base64Flag+imageStr
-                        tmpEvents.push(event)
-                    })
-                    setFilteredEvents(tmpEvents)
-                    setEvents(tmpEvents)
-                }
-            }
 
+    async function fetchData(){
+        if(eventID!==null){
+            try{
+                const tmpEvents=[]
+                const response=await fetch(process.env.REACT_APP_BASE_URL+'events?id='+eventID)
+                const responseJSON=await response.json()
+                var base64Flag = 'data:image;base64,';
+                var imageStr =arrayBufferToBase64(responseJSON.image.data);
+                var event=responseJSON
+                event.image=base64Flag+imageStr
+                tmpEvents.push(event)
+                setEvents(tmpEvents)
+            }
+            catch{
+                const tmpEvents=[]
+            const response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
+            const responseJSON=await response.json()
+            responseJSON.forEach((fetchedEvent)=>{
+                var base64Flag = 'data:image;base64,';
+                var imageStr =arrayBufferToBase64(fetchedEvent.image.data);
+                var event=fetchedEvent
+                event.image=base64Flag+imageStr
+                tmpEvents.push(event)
+            })
+            setEvents(tmpEvents)
+            setFilteredEvents(tmpEvents)
+            }
+        }
+        else{
+            const tmpEvents=[]
+            const response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
+            const responseJSON=await response.json()
+            responseJSON.forEach((fetchedEvent)=>{
+                var base64Flag = 'data:image;base64,';
+                var imageStr =arrayBufferToBase64(fetchedEvent.image.data);
+                var event=fetchedEvent
+                event.image=base64Flag+imageStr
+                tmpEvents.push(event)
+            })
+            setFilteredEvents(tmpEvents)
+            setEvents(tmpEvents)
+        }
+    }
+
+        useEffect(()=>{
             fetchData();
         },[])
 
@@ -113,43 +113,37 @@ function LoadEvents(){
 
 
                 {filteredEvents.map(event=>(
-                    
                     <div className="event" key={event.image}> 
                         <div key={event.image} style={{"maxHeight":"94vh","margin":"auto", 
                     "display":'flex', "flexWrap":'wrap', "paddingTop":"50px","paddingBottom":"50px", "borderBottom":"1px solid gray"}}>
-                        <div style={{"margin":"auto", "textAlign":"center", "width":"250", "padding":"20px"}} key={event.image}>
-                    
-                    <div>
-                    </div>
-                    <h2>{event.name}</h2>
-                    <h3>{event.description}</h3>
-                    <h3>Location: {event.place_name}</h3>
-                    <h3>Date: {event.date}</h3>
-                    <h3>Time: {event.startTime} - {event.endTime}</h3>
-                    <h3>Contact: <a href={"tel:"+event.contact}>{event.contact}</a></h3>
-                    </div>
-                    
-                    <div style={{"margin":"auto", "textAlign":"center", "width":"500px"}}>
-                    <img src={event.image} alt="Couldn't load" style={{"display": "block","margin":"auto",
+                        <div style={{"margin":"auto", "textAlign":"center", "width":"33%", "padding":"20px"}} key={event.image}>
+                            <h2>{event.name}</h2>
+                            <h3>{event.description}</h3>
+                            <h3>Location: {event.place_name}</h3>
+                            <h3>Date: {event.date}</h3>
+                            <h3>Time: {event.startTime} - {event.endTime}</h3>
+                            <h3>Contact: <a href={"tel:"+event.contact}>{event.contact}</a></h3>
+                        </div>
+
+                    <div style={{"margin":"auto", "textAlign":"center", "width":"33%"}}>
+                        <img src={event.image} alt="Couldn't load" style={{"display": "block","margin":"auto",
                             "minHeight":"200px",
                             "maxWidth":"500px",
                             "maxHeight":"250px",
                             "width": "auto",
                             "height": "25vh"}}/>
+                    </div>
+                    
                     {(role === "manager" || role === "admin") &&
-                    <><div style={{display:"inline-block"}}><MDBBtn className='shadow-4 m-4' color='dark' onClick={()=> {setSelectedEvent(event); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
-                        <div style={{display:"inline-block"}}><MDBBtn className='shadow-4 m-4' color='dark' onClick={() => { setSelectedEvent(event); setIsDeleteModalVisible(true); }}><MDBIcon  fas /> Delete</MDBBtn></div></>
+                    <div style={{"margin":"auto", "textAlign":"center", "width":"33%"}}><div style={{display:"inline-block"}}><MDBBtn className='shadow-4 m-4' color='dark' onClick={()=> {setSelectedEvent(event); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
+                        <div style={{display:"inline-block"}}><MDBBtn className='shadow-4 m-4' color='dark' onClick={() => {setSelectedEvent(event); setIsDeleteModalVisible(true); }}><MDBIcon  fas /> Delete</MDBBtn></div></div>
                     }
                     </div>
                 </div>
-                        
-
-                        
-                    </div>
                 ))}
             </div>
-            {selectedEvent !== undefined && <DeleteEventModal isVisible={isDeleteModalVisible} setIsVisible={setIsDeleteModalVisible} event={selectedEvent} />}
-            {selectedEvent !== undefined && <EditEventModal isVisible={isEditModalVisible} setIsVisible={setIsEditModalVisible} event={selectedEvent} />}
+            {selectedEvent !== undefined && <DeleteEventModal isVisible={isDeleteModalVisible} setIsVisible={setIsDeleteModalVisible} event={selectedEvent} refetch={fetchData}/>}
+            {selectedEvent !== undefined && <EditEventModal isVisible={isEditModalVisible} setIsVisible={setIsEditModalVisible} event={selectedEvent} refetch={fetchData} />}
             </>
         )
 }

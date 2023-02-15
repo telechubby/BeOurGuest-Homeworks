@@ -34,9 +34,10 @@ const Login = () => {
         })
         if(res!==undefined){
             setMessage('User logged in successfully. Redirecting to map...')
-            setUser(res.data.username)
-            setRole(res.data.role)
-            setId(res.data.id)
+            setUser(res['data'].username)
+            setRole(res['data'].role)
+            setId(res['data'].id)
+            console.log(res['data'].username);
         }
       }
 

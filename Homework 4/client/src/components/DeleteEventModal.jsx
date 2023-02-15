@@ -1,9 +1,22 @@
+import axios from "axios";
 import { MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBBtn, MDBModalBody, MDBModalFooter } from "mdb-react-ui-kit";
 import React, { Component } from "react";
 
-export const DeleteEventModal = ({isVisible,setIsVisible, event}) => {
-    const deleteEvent=()=>{console.log("implement delete")
-    setIsVisible(false)}
+export const DeleteEventModal = ({isVisible,setIsVisible, event,refetch}) => {
+    async function deleteEvent(){
+      let res=await axios.put(process.env.REACT_APP_BASE_URL+'/events/delete',{
+        id:event._id
+      })
+      if(res!==undefined)
+      {
+        console.log('Deleted in DB');
+        setIsVisible(false)
+        refetch()
+      }
+      else{
+        console.log('Error');
+      }
+    }
     return (<MDBModal show={isVisible} setShow={setIsVisible} tabIndex='-1'>
     <MDBModalDialog>
       <MDBModalContent>

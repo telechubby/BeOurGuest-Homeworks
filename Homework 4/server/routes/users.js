@@ -27,6 +27,14 @@ const userSchema=new mongoose.Schema({
   
   //Users Management
 
+router.get('/users',(req,res)=>{
+  User.find({},(err,found)=>{
+    if(err)
+      res.send(err)
+    res.send(found)
+  })
+})
+
 /* PUT new user. */
 router.put('/create',(req,res)=>{
     User.findOne({email:req.body.email},(err,found)=>{
@@ -137,51 +145,26 @@ router.get('/user', function(req, res) {
 });
 
 //DELETE user
-router.delete('/delete',(req,res)=>{
-  User.deleteOne({_id:req.body.id},(err,found)=>{
+router.put('/delete',(req,res)=>{
+  User.deleteOne({_id:new mongoose.Types.ObjectId(req.body.id)},(err,found)=>{
     if(!err)
       res.send('User deleted')
     else
-      res.send('User could not be deleted: '+err)
-  }).catch(err=>console.log('Error occured '+err))
-})
-
-//UPDATE user email
-
-router.put('/emailUpdate',(req,res)=>{
-  User.findOneAndUpdate({_id:req.body.id},{email:req.body.newEmail},(err,found)=>{
-    if(err)
-        res.send('Error updating user email: '+err)
-    else
-      res.send('User email updated')
+      res.status(410).send('User could not be deleted: '+err)
   }).catch(err=>console.log('Error occured '+err))
 })
 
 //UPDATE user password
 
-router.put('/update',(req,res)=>{
-  let id=req.body.id;
-  let email=req.body.email
-  let password_hash=req.body.password_hash
+router.post('/update',(req,res)=>{
+  let id=req.body.id
   let name=req.body.name
-  mongoose.model('User').findOne({_id:id},(err,foundUser)=>{
-    if(err || foundUser===null)
+  let role=req.body.role
+  mongoose.model('User').findOneAndUpdate({_id:new mongoose.Types.ObjectId(id)},{name:name,role:role},(err,found)=>{
+    if(err!==undefined)
       res.send(err)
-    mongoose.model('User').find({},(err,foundUsers)=>{
-      foundUsers.foreach(otherUser=>{
-          if(otherUser._id!==id && otherUser.email===email)
-            res.status(505).send('Cannot set that email address since another user is using it.')
-      })
-      mongoose.model('User').findOneAndUpdate({_id:id},{
-        email:email,
-        password_hash:password_hash,
-        name:name
-      },(err,newFoundUser)=>{
-          if(err)
-            res.send(err)
-          res.send('User data updated')
-      })
-    })
+    else
+      res.send(found)
   })
 })
 

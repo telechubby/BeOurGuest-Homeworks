@@ -36,8 +36,6 @@ const Header = () => {
     })
     if(res!==undefined){
         setUser(null);
-        setRole(null)
-        setId(null)
         window.location.href='/login'
     }
   }
@@ -60,6 +58,7 @@ const Header = () => {
 
             <MDBCollapse navbar show={showNavNoToggler}>
               <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
+              {user ? role === "admin" && <MDBNavbarItem><MDBBtn outline className='me-3' size='lg' color='dark' href='/users'>Users</MDBBtn></MDBNavbarItem>:""}
               {user && role==='manager'?<MDBNavbarItem><MDBBtn outline className='me-3' size='lg' color='dark' href='/createevent'>Create event</MDBBtn></MDBNavbarItem>:""}
               {user?
               <MDBNavbarItem><MDBBtn outline className='me-3' size='lg' color='dark' href='/events'>

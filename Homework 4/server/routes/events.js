@@ -31,7 +31,7 @@ const eventSchema=new mongoose.Schema({
 const Event=mongoose.model('Event',eventSchema)
 
 router.post("/create",upload.single('file'),(req,res)=>{
-    console.log(req.body)
+    console.log(req)
     const newEvent=new Event({
         name:req.body.name,
         place_id:req.body.place_id,
@@ -71,6 +71,33 @@ router.get("/",(req,res)=>{
             res.send(found);
         })
       }
+})
+
+router.put('/update',(req,res)=>{
+    let id=req.body.id
+    let name=req.body.name
+    let description=req.body.description
+    let date=req.body.date
+    let startTime=req.body.startTime
+    let endTime=req.body.endTime
+    let contact=req.body.contact
+
+    mongoose.model('Event').findOneAndUpdate({_id:new mongoose.Types.ObjectId(id)},{name:name,description:description,date:date,startTime:startTime,endTime:endTime,contact:contact},(err,found)=>{
+      if(err!==undefined)
+        res.send(err)
+      else
+        res.send(found)
+    })
+})
+
+router.put('/delete',(req,res)=>{
+  let id=req.body.id
+  Event.deleteOne({_id:new mongoose.Types.ObjectId(req.body.id)},(err,found)=>{
+    if(!err)
+      res.send('Event deleted')
+    else
+      res.status(410).send('Event could not be deleted: '+err)
+  }).catch(err=>console.log('Error occured '+err))
 })
 
 module.exports=router

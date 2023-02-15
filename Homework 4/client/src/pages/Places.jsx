@@ -138,10 +138,12 @@ function LoadPlaces() {
                 ))}
                 
             </div>
+             </>
+    )
+    /*
             {selectedPlace !== undefined && <DeletePlaceModal isVisible={isDeleteModalVisible} setIsVisible={setIsDeleteModalVisible} place={selectedPlace} />}
             {selectedPlace !== undefined && <EditPlaceModal isVisible={isEditModalVisible} setIsVisible={setIsEditModalVisible} place={selectedPlace} />}
-        </>
-    )
+    */
 }
 
 

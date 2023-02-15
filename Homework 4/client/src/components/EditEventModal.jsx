@@ -1,24 +1,40 @@
+import axios from "axios";
 import { MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBBtn, MDBModalBody, MDBModalFooter, MDBCheckbox, MDBCol, MDBInput, MDBRow } from "mdb-react-ui-kit";
 import React, { Component, useEffect, useState } from "react";
 
-export const EditEventModal = ({isVisible,setIsVisible, event}) => {
+export const EditEventModal = ({isVisible,setIsVisible, event, refetch}) => {
 
+  
+    const [name, setName] = useState(event.name)
+    const [description, setDescription] = useState(event.description);
+    const [date, setDate] = useState(event.date);
+    const [startTime, setStartTime] = useState(event.startTime);
+    const [endTime, setEndTime] = useState(event.endTime);
+    const [contact,setContact]=useState(event.contact);
 
-    const editEvent=()=>{console.log("edit")
-    setIsVisible(false)}
-  
-    const [name, setName] = useState(event.Name)
-    const [palceid,setPlaceID] = useState(event.PlaceID)
-    const [description, setDescription] = useState(event.Description);
-    const [startTime, setStartTime] = useState(event.StartTime);
-    const [date, setDate] = useState(event.Date);
-    const [endTime, setEndTime] = useState(event.EndTime);
-    const [image,setImage]=useState(event.Image);
-    const [contact,setContact]=useState(event.Contact);
-  
+    async function editEvent(){
+      let res=await axios.put(process.env.REACT_APP_BASE_URL+'/events/update',{
+        id:event._id,
+        name:name,
+        description:description,
+        date:date,
+        startTime:startTime,
+        endTime:endTime,
+        contact:contact
+      })
+      if(res!==undefined)
+      {
+        console.log('Updated in DB');
+        setIsVisible(false)
+        window.location.href="/events";
+      }
+      else{
+        console.log('Error');
+      }
+    }
     
 
-    useEffect(()=>{setName(event.name);},[event])
+    useEffect(()=>{console.log(event)},[event])
     return (<MDBModal show={isVisible} setShow={setIsVisible} tabIndex='-1'>
     <MDBModalDialog>
       <MDBModalContent>
@@ -28,14 +44,12 @@ export const EditEventModal = ({isVisible,setIsVisible, event}) => {
         </MDBModalHeader>
         <MDBModalBody>
         <form>
-          <MDBInput className='mb-4'label='Name' value={name}/>
-          <MDBInput className='mb-4'label='PlaceID' value={palceid}/>
-          <MDBInput className='mb-4'label='Description' value={description}/>
-          <MDBInput className='mb-4'label='StarTtime' value={startTime}/>
-          <MDBInput className='mb-4'label='Date' value={date}/>
-          <MDBInput className='mb-4'label='EndTime' value={endTime}/>
-          <MDBInput className='mb-4'label='Image' value={image}/>
-          <MDBInput className='mb-4'label='Contact' value={contact}/>
+          <MDBInput className='mb-4'label='Name' value={name} onChange={(e)=>{setName(e.target.value)}}/>
+          <MDBInput className='mb-4'label='Description' value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
+          <MDBInput className='mb-4'label='Date' type='date' min={new Date().toJSON().slice(0,10).replace('/','-')} value={date} onChange={(e)=>{setDate(e.target.value)}}/>
+          <MDBInput className='mb-4'label='StarTime' value={startTime} onChange={(e)=>{setStartTime(e.target.value)}}/>
+          <MDBInput className='mb-4'label='EndTime' value={endTime} onChange={(e)=>{setEndTime(e.target.value)}}/>
+          <MDBInput className='mb-4'label='Contact' value={contact} onChange={(e)=>{setContact(e.target.value)}}/>
         </form>
         </MDBModalBody>
 
