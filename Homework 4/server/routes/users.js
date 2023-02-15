@@ -62,7 +62,7 @@ router.post('/login',(req,res)=>{
       }
       else{
         const token = jwt.sign({_id: found._id}, process.env.JWT_SECRET_KEY, { expiresIn: "1h"});
-        res.cookie("jwt", token, {expire: new Date() + 9999, httpOnly: false, sameSite:'none',secure:true});
+        res.cookie("jwt", token, {expire: new Date() + 9999, httpOnly: true});
         return res.json({
           message: "Successfully Logged In",
           id: found._id,
