@@ -121,10 +121,6 @@ function LoadPlaces() {
                 {filteredPlaces.map(place => (
                     <div className="place" style={{ "margin": "50px" }} key={place._id}>
                         <div>
-                            {(role === "manager" || role === "admin") &&
-                            <><div><MDBBtn className='shadow-4 float-end m-4' color='dark' onClick={()=> {setSelectedPlace(place); setIsEditModalVisible(true); }}><MDBIcon  fas /> Edit</MDBBtn></div>
-                                <div><MDBBtn className='shadow-4 float-end m-4' color='dark' onClick={() => { setSelectedPlace(place); setIsDeleteModalVisible(true); }}><MDBIcon  fas /> Delete</MDBBtn></div></>
-                            }
                             <h2>{place.Name}</h2>
                             <h6>{firstLetterUpper(place.Amenity.replace("_", " ").replace(";", ", "))}</h6>
                             <h5>{"Location: " + place.Street + " - " + place.Suburb}</h5>
@@ -140,10 +136,7 @@ function LoadPlaces() {
             </div>
              </>
     )
-    /*
-            {selectedPlace !== undefined && <DeletePlaceModal isVisible={isDeleteModalVisible} setIsVisible={setIsDeleteModalVisible} place={selectedPlace} />}
-            {selectedPlace !== undefined && <EditPlaceModal isVisible={isEditModalVisible} setIsVisible={setIsEditModalVisible} place={selectedPlace} />}
-    */
+
 }
 
 
