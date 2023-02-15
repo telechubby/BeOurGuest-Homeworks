@@ -12,7 +12,7 @@ require("dotenv").config();
 const router = express();
 const PORT = process.env.SERVER_PORT;
 
-router.use(cors({ origin: true, credentials: true }));
+router.use(cors({ origin: true, credentials: true, allowedHeaders: true }));
 router.set('views', path.join(__dirname, 'views'));
 router.set('view engine', 'jade');
   
