@@ -58,18 +58,7 @@ class Map extends Component {
                 allowedLocation: true
             });
         },async  () => {
-            console.log('ERROR: Location access denied! Fetching location based on IP address.');
-            await fetch('https://ipapi.co/json')
-                .then(res => res.json())
-                .then(location => {
-                    this.setState({
-                        location: {
-                            lat: location.latitude,
-                            lng: location.longitude
-                        },
-                        allowedLocation: true
-                    });
-                });
+            console.log('ERROR: Location access denied!');
         });
         this.loadMarkers();
     }
