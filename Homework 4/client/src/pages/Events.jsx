@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Suspense, useState} from 'react'
 import { RoleContext } from '../RoleContext.js';
 import { Link, renderMatches, useLocation } from 'react-router-dom';
@@ -46,19 +47,23 @@ function LoadEvents(){
         if(eventID!==null){
             try{
                 const tmpEvents=[]
-                const response=await fetch(process.env.REACT_APP_BASE_URL+'events?id='+eventID)
-                const responseJSON=await response.json()
-                var base64Flag = 'data:image;base64,';
-                var imageStr =arrayBufferToBase64(responseJSON.image.data);
-                var event=responseJSON
-                event.image=base64Flag+imageStr
-                tmpEvents.push(event)
+                let response=await fetch(process.env.REACT_APP_BASE_URL+`/events?place_id=${eventID}`)
+                //let response=await fetch(process.env.REACT_APP_BASE_URL+'/events?id='+eventID)
+                let responseJSON=await response.json();
+                responseJSON.forEach((fetchedEvent)=>{
+                    var base64Flag = 'data:image;base64,';
+                    var imageStr =arrayBufferToBase64(fetchedEvent.image.data);
+                    var event=fetchedEvent
+                    event.image=base64Flag+imageStr
+                    tmpEvents.push(event)
+                })
                 setEvents(tmpEvents)
+                setFilteredEvents(tmpEvents)
             }
             catch{
-                const tmpEvents=[]
-            const response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
-            const responseJSON=await response.json()
+            const tmpEvents=[]
+            let response=await fetch(process.env.REACT_APP_BASE_URL+'/events/')
+            let responseJSON=await response.json()
             responseJSON.forEach((fetchedEvent)=>{
                 var base64Flag = 'data:image;base64,';
                 var imageStr =arrayBufferToBase64(fetchedEvent.image.data);

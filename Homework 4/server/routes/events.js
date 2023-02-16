@@ -55,20 +55,23 @@ router.post("/create",upload.single('file'),(req,res)=>{
 })
 
 router.get("/",(req,res)=>{
-    
-    if (req.query.hasOwnProperty('id')) {
-        let id=mongoose.Types.ObjectId(req.query.id)
-        mongoose.model('Event').findOne({_id:id},(err,found)=>{
+  console.log(req.query);
+    if (req.query.hasOwnProperty('place_id')) {
+        let id=mongoose.Types.ObjectId(req.query.place_id)
+        mongoose.model('Event').find({place_id:req.query.place_id},(err,found)=>{
             if(err){
                 res.send(err)
-            }     
-            res.send(found);
+            } 
+            else{
+              res.send(found);
+            }
         })
       } else {
         mongoose.model('Event').find({},(err,found)=>{
             if(err)
                 res.send(err)
-            res.send(found);
+            else
+              res.send(found);
         })
       }
 })
