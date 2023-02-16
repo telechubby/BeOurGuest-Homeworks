@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd server && node ./app.js & cd client && npm start
+(cd client && nodemon) & (cd server && nodemon)
